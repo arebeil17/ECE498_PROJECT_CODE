@@ -2,10 +2,28 @@
 #include "led.h"
 
 Led::Led(){
+  this->R_LED = 7;
+  this->G_LED = 8;
+  this->B_LED = 9;
   //Init LED pins
   pinMode(R_LED, OUTPUT);
   pinMode(G_LED, OUTPUT);
   pinMode(B_LED, OUTPUT);
+
+  setLED(0);
+}
+
+//Specify the pin numbers for the RGB LED
+Led::Led(int R_LED, int G_LED, int B_LED){
+    this->R_LED = R_LED;
+    this->G_LED = G_LED;
+    this->B_LED = B_LED;
+    //Init LED pins
+    pinMode(R_LED, OUTPUT);
+    pinMode(G_LED, OUTPUT);
+    pinMode(B_LED, OUTPUT);
+
+    setLED(0);
 }
 
 void Led::setLED(int mode)
@@ -61,9 +79,9 @@ void Led::setLED(int mode)
      break;
     //OFF
    default:
-      analogWrite(R_LED, HIGH);
-      analogWrite(G_LED, HIGH);
-      analogWrite(B_LED, HIGH);
+      analogWrite(R_LED, 255);
+      analogWrite(G_LED, 255);
+      analogWrite(B_LED, 255);
    break;
   }
 }

@@ -3,20 +3,23 @@
 
 #include <Arduino.h>
 
-#define R_LED 9
-#define G_LED 11
-#define B_LED 13
-
 #define  SEND  2
 #define  RECIEVE  3
 #define  WAIT  5
 #define  NO_COMM  1
 
 class Led {
+  private:
+    int R_LED;
+    int G_LED;
+    int B_LED;
 
   public:
-
+    //Default pins are 7,8,9 PWM
     Led();
+
+    //Specify the PWM pin numbers for the RGB LED
+    Led(int R_LED, int G_LED, int B_LED);
 
     void setLED(int mode);
 };

@@ -3,6 +3,7 @@
 #include <CommDirector.h>
 
 CommDirector commDirector;
+Led led = Led(11,12,13); //For command data
 bool transmit = false;
 int t = 0;
 #define TIMEOUT 2000
@@ -16,14 +17,9 @@ void setup() {
 
 void loop(){
   if(!transmit){
-    t++;
+    if(t <= TIMEOUT) t++;
     if( t == TIMEOUT) {
-      commDirector.transmit();
-      delay(100);
-    }else if(t > TIMEOUT){
       commDirector.led.setLED(NO_COMM);
-      commDirector.transmit();
-      delay(1000);
     }
   }else{
     t = 0;
@@ -40,6 +36,7 @@ void serialEvent() {
     delay(50);
     transmit = true;
     commDirector.led.setLED(WAIT);
+    led.setLED(commDirector.command.command);
   }
 }
 //
