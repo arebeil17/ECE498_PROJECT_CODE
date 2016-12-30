@@ -45,10 +45,10 @@ public class MPB_Driver {
         Status.initialize();
         DataBuffer.initialize(64);
 
-        mpb_GUI.btnConfirm.addMouseListener(new MouseAdapter() {
+        mpb_GUI.simPanel.btnSend.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent arg0) {
-                        Status.command = (byte) mpb_GUI.checkButtons();
+                        Status.command = (byte) mpb_GUI.simPanel.checkButtons();
                         commDirector.command.updateDataPacket(Status.getControlData(), 
                                                               Status.getConfigData(), 
                                                               Status.getCommandData());
