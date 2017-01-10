@@ -6,8 +6,7 @@
 #include <Arduino.h>
 #include <CommDirector.h>
 #include <led.h>
-#include <Payload.h>
-#include <Identify.h>
+#include <ModuleController.h>
 #include <Wire.h>
 #include <LCD.h>
 #include <LiquidCrystal_I2C.h>
@@ -49,7 +48,7 @@ void loop()
       lcd.print(id.getModuleName(1));
       lcd.setCursor ( 0, 2 );
       lcd.print("Ports used: ");
-      lcd.print(PORT_COUNT);
+      lcd.print(NUM_MODULES);
       lcd.setCursor ( 0, 3 );
       lcd.print("Ports:");
       lcd.print(" "); lcd.print(id.port[0]);

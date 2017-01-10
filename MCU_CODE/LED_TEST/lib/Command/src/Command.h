@@ -13,8 +13,13 @@
 /**************************************************************************************************/
 #include "stdlib.h"
 #include "math.h"
-#include <Keywords.h>
+
+//#include "stdafx.h"
 /**************************************************************************************************/
+#define NORMAL 2
+#define CRITICAL 3
+#define NONE 0
+
 
 using namespace std;
 

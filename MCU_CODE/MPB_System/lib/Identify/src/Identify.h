@@ -11,25 +11,20 @@
 */
 /**************************************************************************************************/
 #include <Arduino.h>
-#include <String.h>
+#include <string.h>
+#include <Module.h>
+#include <Keywords.h>
 /**************************************************************************************************/
 #define ROOT_PIN 23
-#define SLOT_COUNT 1
-#define PORT_COUNT 3
-
-#define NO_MODULE 0
-#define LED_MODULE 1
-#define SOUND_MODULE 2
-#define LCD_MODULE 4
 
 using namespace std;
 
 class Identify {
   private:
-    int slotId[SLOT_COUNT];
+    int slotId[NUM_MODULES];
 
   public:
-    int port[PORT_COUNT];
+    int port[NUM_MODULES*3];
 
     Identify();
 
