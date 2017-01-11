@@ -42,4 +42,17 @@
 #define LED_SLOT2_PIN 18
 #define LED_SLOT3_PIN 19
 
+//DISPLAY Module definitions
+#define RED_SLOT1_PIN 2
+#define GREEN_SLOT1_PIN 3
+#define BLUE_SLOT1_PIN 4
+
+#define RED_SLOT2_PIN 5
+#define GREEN_SLOT2_PIN 6
+#define BLUE_SLOT2_PIN 7
+
+#define RED_SLOT3_PIN 8
+#define GREEN_SLOT3_PIN 9
+#define BLUE_SLOT3_PIN 10
+
 #endif // KEYWORDS_H

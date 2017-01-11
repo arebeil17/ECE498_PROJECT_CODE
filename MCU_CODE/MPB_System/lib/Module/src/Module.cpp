@@ -20,23 +20,7 @@ Module::Module()
 	mode = 0;
 	config = 0;
 }
-/**************************************************************************************************/
-//Initialize module as an LED Payload specify slot position
-bool Module::initLedStrip(unsigned int slot){
-		switch(slot){
-			case 1:
-				strip = Adafruit_NeoPixel(60, LED_SLOT1_PIN, NEO_RGBW  + NEO_KHZ800);
-				return true;
-			case 2:
-				strip = Adafruit_NeoPixel(60, LED_SLOT2_PIN, NEO_RGBW  + NEO_KHZ800);
-				return true;
-			case 3:
-				strip = Adafruit_NeoPixel(60, LED_SLOT3_PIN, NEO_RGBW  + NEO_KHZ800);
-				return true;
-			default:
-				return false;
-		}
-}
+
 /**************************************************************************************************/
 //Initialize module as an LCD Payload specify slot position
 bool Module::initLCD(unsigned int slot){

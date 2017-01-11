@@ -11,6 +11,7 @@
 */
 
 /**************************************************************************************************/
+#include <Arduino.h>
 #include "stdlib.h"
 #include "math.h"
 #include "Command.h"
@@ -22,7 +23,7 @@ using namespace std;
 
 class Module {
 	private:
-	  Adafruit_NeoPixel strip;
+
 	public:
 		int id;
 		int state;

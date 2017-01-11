@@ -20,18 +20,16 @@
 #include <Timer.h>
 /**************************************************************************************************/
 
-
 using namespace std;
 
 class ModuleController {
 	private:
+
+	public:
 		Timer mainTimer;
 		Timer moduleTimer1;
 		Timer moduleTimer2;
 		Timer moduleTimer3;
-		
-
-	public:
 		Identify id;
 		Module module[NUM_MODULES];
 
