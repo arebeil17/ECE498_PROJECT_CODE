@@ -13,6 +13,7 @@
 /**************************************************************************************************/
 #include "stdlib.h"
 #include "math.h"
+#include "SubCommand.h"
 #include <Keywords.h>
 /**************************************************************************************************/
 
@@ -21,32 +22,30 @@ using namespace std;
 class Command {
 
 	private:
-		bool update;
+		bool updated;
 
 	public:
+		unsigned char masterControl;
 		int mode;
-		int priority;
-		int select;
 		int config;
-		unsigned char command;
-		unsigned char dataPacket[3];
+		bool hiPriority[3];
+		bool slotEnable[3];
+		SubCommand subCommand[3];
 
 		Command();
-		~Command();
-
 		//Customer constructor for command class
-		Command(bool update, int priority, unsigned char dataPacket[]);
+		//Command(bool update, int priority, unsigned char dataPacket[]);
 
 		//Update current data packet vector
 		void updateDataPacket(unsigned char control, unsigned char config, unsigned char command);
 
 		//Getters and setters for Command class private members
-		bool isUpdate();
-		void setUpdate(bool update);
+		bool isUpdated();
+		void setUpdated(bool update);
 
 		void setDataPacket(unsigned char newPacket[]);
 		//Updates command class data with data stored in dataPacket buffer
-		void setCommandData();
+		void updateCommandData();
 
 		//For testing
 		//void print();

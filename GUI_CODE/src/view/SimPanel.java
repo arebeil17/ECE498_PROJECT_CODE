@@ -3,6 +3,8 @@ package view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -56,48 +58,20 @@ public class SimPanel extends JPanel {
         add(label_2);
 
         functionBtn = new ArrayList<JRadioButton>(); 
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 1"));
-        simBtnGroup.add(functionBtn.get(0));
-        functionBtn.get(0).setBorderPainted(true);
-        functionBtn.get(0).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        functionBtn.get(0).setFont(new Font("Tahoma", Font.BOLD, 12));
-        add(functionBtn.get(0));
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 2"));
-        simBtnGroup.add(functionBtn.get(1));
-        functionBtn.get(1).setFont(new Font("Tahoma", Font.BOLD, 12));
-        functionBtn.get(1).setBorderPainted(true);
-        functionBtn.get(1).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        add(functionBtn.get(1));
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 3"));
-        simBtnGroup.add(functionBtn.get(2));
-        functionBtn.get(2).setFont(new Font("Tahoma", Font.BOLD, 12));
-        functionBtn.get(2).setBorderPainted(true);
-        functionBtn.get(2).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        add(functionBtn.get(2));
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 4"));
-        simBtnGroup.add(functionBtn.get(3));
-        functionBtn.get(3).setFont(new Font("Tahoma", Font.BOLD, 12));
-        functionBtn.get(3).setBorderPainted(true);
-        functionBtn.get(3).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        add(functionBtn.get(3));
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 5"));
-        simBtnGroup.add(functionBtn.get(4));
-        functionBtn.get(4).setFont(new Font("Tahoma", Font.BOLD, 12));
-        functionBtn.get(4).setBorderPainted(true);
-        functionBtn.get(4).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        add(functionBtn.get(4));
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 6"));
-        simBtnGroup.add(functionBtn.get(5));
-        functionBtn.get(5).setFont(new Font("Tahoma", Font.BOLD, 12));
-        functionBtn.get(5).setBorderPainted(true);
-        functionBtn.get(5).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        add(functionBtn.get(5));
+    
+        for(int i = 0; i < 6; i++){
+        	functionBtn.add(new JRadioButton("Simultaneous Function " + (i + 1)));
+            simBtnGroup.add(functionBtn.get(i));
+            functionBtn.get(i).setBorderPainted(true);
+            functionBtn.get(i).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+            functionBtn.get(i).setFont(new Font("Tahoma", Font.BOLD, 14));
+            add(functionBtn.get(i));
+            functionBtn.get(i).addActionListener(new ActionListener() {
+            	public void actionPerformed(ActionEvent arg0) {
+            		updateSelection();
+            	}
+            });
+        }
 
         JLabel label_3 = new JLabel("");
         add(label_3);
@@ -118,6 +92,8 @@ public class SimPanel extends JPanel {
 
         JLabel label_7 = new JLabel("");
         add(label_7);
+        
+        updateSelection();
 	}
 	
     //Checks and returns the selected JRadioButton
@@ -129,6 +105,19 @@ public class SimPanel extends JPanel {
         if(functionBtn.get(4).isSelected()) return 5;
         if(functionBtn.get(5).isSelected()) return 6;
         return 0;	
+    }
+    
+    public void updateSelection(){
+    	for(int i = 0; i < 6; i++){
+    		if((i + 1) == checkButtons()){
+    			functionBtn.get(i).setBackground(Color.LIGHT_GRAY);
+    			functionBtn.get(i).setForeground(Color.blue);
+    			
+    		}else{
+    			functionBtn.get(i).setBackground(Color.GRAY);
+    			functionBtn.get(i).setForeground(Color.LIGHT_GRAY);
+    		}
+    	}
     }
     
 

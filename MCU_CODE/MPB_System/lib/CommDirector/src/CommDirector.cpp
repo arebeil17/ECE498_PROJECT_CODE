@@ -14,6 +14,14 @@
 CommDirector::CommDirector(){
 }
 /**************************************************************************************************/
+CommDirector::CommDirector(int activeSlots){
+    Serial.begin(38400);
+    if(activeSlots >= 3) Serial3.begin(38400);
+    if(activeSlots >= 2) Serial2.begin(38400);
+    if(activeSlots >= 1) Serial1.begin(38400);
+
+}
+/**************************************************************************************************/
 bool CommDirector::recieve(){
   int size = Serial.available();
   unsigned char buffer[size];
@@ -40,6 +48,22 @@ void CommDirector::transmit(){
       led.setLED(7); //Orange status for not data sent
     }
     Serial.flush();
+}
+/**************************************************************************************************/
+bool CommDirector::subTransmit(int slot){
+    switch(slot){
+      case 1:
+        if(!Serial1.write(subCommand[0].dataPacket, 2)) return false;
+        return true;
+      case 2:
+        if(!Serial1.write(subCommand[1].dataPacket, 2)) return false;
+        return true;
+      case 3:
+        if(!Serial1.write(subCommand[2].dataPacket, 2)) return false;
+        return true;
+      default:
+        return false;
+    }
 }
 /**************************************************************************************************/
 void CommDirector::startUp(){

@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
@@ -169,34 +170,34 @@ public class IndependentPanel extends JPanel {
 				enableBtn.get(0).setText("Enabled");
 				enableBtn.get(1).setText("Disabled");
 				enableBtn.get(2).setText("Disabled");
-				indePayloadStatus.get(0).setEnabled(true);
-				indePayloadStatus.get(1).setEnabled(false);
-				indePayloadStatus.get(2).setEnabled(false);
-				optionBox.get(0).setEnabled(true);
-				optionBox.get(1).setEnabled(false);
-				optionBox.get(2).setEnabled(false);
+				indePayloadStatus.get(0).setEnabled(true); indePayloadStatus.get(0).setBackground(Color.WHITE);
+				indePayloadStatus.get(1).setEnabled(false); indePayloadStatus.get(1).setBackground(Color.DARK_GRAY);
+				indePayloadStatus.get(2).setEnabled(false); indePayloadStatus.get(2).setBackground(Color.DARK_GRAY);
+				optionBox.get(0).setEnabled(true); optionBox.get(0).setBackground(Color.WHITE);
+				optionBox.get(1).setEnabled(false); optionBox.get(1).setBackground(Color.DARK_GRAY);
+				optionBox.get(2).setEnabled(false); optionBox.get(2).setBackground(Color.DARK_GRAY);
 				break;
 			case 2:
 				enableBtn.get(0).setText("Disabled");
 				enableBtn.get(1).setText("Enabled");
 				enableBtn.get(2).setText("Disabled");
-				indePayloadStatus.get(0).setEnabled(false);
-				indePayloadStatus.get(1).setEnabled(true);
-				indePayloadStatus.get(2).setEnabled(false);
-				optionBox.get(0).setEnabled(false);
-				optionBox.get(1).setEnabled(true);
-				optionBox.get(2).setEnabled(false);
+				indePayloadStatus.get(0).setEnabled(false);indePayloadStatus.get(0).setBackground(Color.DARK_GRAY);
+				indePayloadStatus.get(1).setEnabled(true); indePayloadStatus.get(1).setBackground(Color.WHITE);
+				indePayloadStatus.get(2).setEnabled(false);indePayloadStatus.get(2).setBackground(Color.DARK_GRAY);
+				optionBox.get(0).setEnabled(false); optionBox.get(0).setBackground(Color.DARK_GRAY);
+				optionBox.get(1).setEnabled(true); optionBox.get(1).setBackground(Color.WHITE);
+				optionBox.get(2).setEnabled(false); optionBox.get(2).setBackground(Color.DARK_GRAY);
 				break;
 			case 3:
 				enableBtn.get(0).setText("Disabled");
 				enableBtn.get(1).setText("Disabled");
 				enableBtn.get(2).setText("Enabled");
-				indePayloadStatus.get(0).setEnabled(false);
-				indePayloadStatus.get(1).setEnabled(false);
-				indePayloadStatus.get(2).setEnabled(true);
-				optionBox.get(0).setEnabled(false);
-				optionBox.get(1).setEnabled(false);
-				optionBox.get(2).setEnabled(true);
+				indePayloadStatus.get(0).setEnabled(false);indePayloadStatus.get(0).setBackground(Color.DARK_GRAY);
+				indePayloadStatus.get(1).setEnabled(false);indePayloadStatus.get(1).setBackground(Color.DARK_GRAY);
+				indePayloadStatus.get(2).setEnabled(true); indePayloadStatus.get(2).setBackground(Color.WHITE);
+				optionBox.get(0).setEnabled(false); optionBox.get(0).setBackground(Color.DARK_GRAY);
+				optionBox.get(1).setEnabled(false); optionBox.get(1).setBackground(Color.DARK_GRAY);
+				optionBox.get(2).setEnabled(true); optionBox.get(2).setBackground(Color.WHITE);
 				break;
 		}
 		

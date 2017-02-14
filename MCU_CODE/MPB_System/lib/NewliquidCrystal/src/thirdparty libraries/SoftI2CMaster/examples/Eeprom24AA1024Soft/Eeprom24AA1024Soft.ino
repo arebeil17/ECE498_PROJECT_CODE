@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 // Sketch to explore 24AA1024 using SoftI2C
 
 #define SDA_PORT PORTD

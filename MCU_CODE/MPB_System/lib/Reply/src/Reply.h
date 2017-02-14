@@ -16,7 +16,7 @@
 /**************************************************************************************************/
 #include "stdlib.h"
 #include "math.h"
-//#include "stdafx.h"
+#include "SubReply.h"
 /**************************************************************************************************/
 
 #define EMPTY 0
@@ -29,30 +29,23 @@ using namespace std;
 class Reply
 {
 	private:
-
+		bool ready;
 
 	public:
-		int status;
-		int mode;
-		int confirmation;
-
-		int activeSlots;
-		int config1;
-		int config2;
-		int config3;
-		unsigned char dataPacket[2];
+		unsigned char masterState;
+		unsigned int activeSlots;
+		SubReply subReply[3];
+		unsigned char dataPacket[7];
 
 		Reply();
-		~Reply();
-
+		//Set the reply ready to send flag
+		void setReady(bool ready);
+		//Returns ready flag
+		bool isReady();
 		//Sets the reply packet with the current value of all fields/parameters
-		void setDataPacket();
-
-		//Sets the reply packet with the specified/given fields
-		void setDataPacket(int status, int mode, int confirmation, int activeSlots, int config1, int config2, int config3);
-
-		//Sets the reply packet with the the specified status and config data
-		void setDataPacket(unsigned char status, unsigned char config);
+		void updateDataPacket();
+		//Set specific SubModule Reply Data
+		bool setDataPacket(int slot, unsigned char newPacket[]);
 
 };
 

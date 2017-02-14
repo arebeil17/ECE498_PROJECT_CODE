@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 // Simple sketch to read out BMA020 using SoftI2C
 
 // Readout BMA020 chip

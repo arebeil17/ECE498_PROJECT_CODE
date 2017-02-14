@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 // This is a short sketch that stretches the low pulse on an I2C bus
 // in order to test the timeout feature.
 // Put any Arduino and I2C device, e.g. a memory chip, as usual on a breadboard,

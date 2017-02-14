@@ -24,15 +24,15 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import model.Status;
-
 import java.util.ArrayList;
 import java.awt.FlowLayout;
 import javax.swing.JComboBox;
 import javax.swing.JToggleButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.UIManager;
+import javax.swing.UIManager.*;
 
 public class MPB_GUI extends JFrame{
     
@@ -45,6 +45,7 @@ public class MPB_GUI extends JFrame{
     /**
      * Launch the application.
      */
+
     public static void main(String[] args) {
             EventQueue.invokeLater(new Runnable() {
                     public void run() {
@@ -71,7 +72,7 @@ public class MPB_GUI extends JFrame{
 
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBackground(SystemColor.inactiveCaption);
-        tabbedPane.setFont(new Font("Tahoma", Font.BOLD, 18));
+        tabbedPane.setFont(new Font("Tahoma", Font.BOLD, 20));
         contentPane.add(tabbedPane);
 
         initSimPanel();

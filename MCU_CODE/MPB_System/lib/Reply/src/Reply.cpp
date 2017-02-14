@@ -13,54 +13,59 @@
 
 Reply::Reply()
 {
-	status = 0;
-	mode = 0;
-	confirmation = 0;
-
+	ready = false;
+	masterState = 0;
 	activeSlots = 0;
-	config1 = EMPTY;
-	config2 = EMPTY;
-	config3 = EMPTY;
-
 	dataPacket[0] = 0;
 	dataPacket[1] = 0;
+	dataPacket[2] = 0;
+	dataPacket[3] = 0;
+	dataPacket[4] = 0;
+	dataPacket[5] = 0;
+	dataPacket[6] = 0;
 }
-
 /**************************************************************************************************/
-Reply::~Reply()
+//Set the reply ready to send flag
+void Reply::setReady(bool ready){
+		this->ready = ready;
+}
+/**************************************************************************************************/
+bool Reply::isReady(){
+		return ready;
+}
+/**************************************************************************************************/
+//Updates data packet with current value of all fields/parameters
+void Reply::updateDataPacket()
 {
-}
-
-/**************************************************************************************************/
-void Reply::setDataPacket()
-{
-	dataPacket[0] = ((status << 4) | (mode << 3) | (confirmation));
-	dataPacket[1] = ((activeSlots << 6) | (config1 << 4) | (config2 << 2) | (config3));
-}
-/**************************************************************************************************/
-void Reply::setDataPacket(int status, int mode, int confirmation, int activeSlots, int config1, int config2, int config3)
-{
-	this->status = status;
-	this->mode = mode;
-	this->confirmation = confirmation;
-	this->activeSlots = activeSlots;
-	this->config1 = config1;
-	this->config2 = config2;
-	this->config3 = config3;
-	dataPacket[0] = ((status << 4) | (mode << 3) | (confirmation));
-	dataPacket[1] = ((activeSlots << 6) | (config1 << 4) | (config2 << 2) | (config3));
+	 dataPacket[0] = masterState;
+	 dataPacket[1] =  subReply[2].dataPacket[0];
+	 dataPacket[2] =  subReply[2].dataPacket[1];
+	 dataPacket[3] =  subReply[1].dataPacket[0];
+	 dataPacket[4] =  subReply[1].dataPacket[1];
+	 dataPacket[5] =  subReply[0].dataPacket[0];
+	 dataPacket[6] =  subReply[0].dataPacket[1];
 }
 /**************************************************************************************************/
-//Sets the reply packet with the the specified status and config data
-void  Reply::setDataPacket(unsigned char status, unsigned char config) {
-	this->status = (status & 0xF0) >> 4;
-	this->mode = (status & 0x04) >>3;
-	this->confirmation = (status & 0x07);
-	this->activeSlots = (config & 0xC0) >> 6;
-	this->config1 = (config & 0x30) >> 4;
-	this->config2 = (config & 0x0C) >> 2;
-	this->config3 = (config & 0x03);
-	dataPacket[0] = status;
-	dataPacket[1] = config;
+//Set specific SubModule Reply Data
+bool Reply::setDataPacket(int slot, unsigned char newPacket[]){
+		switch(slot){
+				case 1:
+					dataPacket[5] = newPacket[0];
+					dataPacket[6] = newPacket[1];
+					subReply[0].setReplyData(newPacket);
+					return true;
+				case 2:
+				  dataPacket[3] = newPacket[0];
+				  dataPacket[4] = newPacket[1];
+					subReply[1].setReplyData(newPacket);
+					return true;
+				case 3:
+				  dataPacket[1] = newPacket[0];
+				  dataPacket[2] = newPacket[1];
+					subReply[2].setReplyData(newPacket);
+					return true;
+				default:
+					return false;
+		}
 }
 /**************************************************************************************************/

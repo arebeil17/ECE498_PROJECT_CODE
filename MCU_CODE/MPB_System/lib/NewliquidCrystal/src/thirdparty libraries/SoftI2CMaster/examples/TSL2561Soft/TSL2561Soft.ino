@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 // Sketch to explore the luminosity sensor TSL2561 (breakout board by Adafruit)
 
 #define SDA_PORT PORTD

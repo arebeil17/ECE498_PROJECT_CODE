@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 //Flash two LEDs at different rates using Simon Monk's Timer library
 //http://www.doctormonk.com/2012/01/arduino-timer-library.html
 //

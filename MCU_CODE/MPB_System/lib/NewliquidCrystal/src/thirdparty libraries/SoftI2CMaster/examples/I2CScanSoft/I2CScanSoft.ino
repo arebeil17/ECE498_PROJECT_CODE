@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 // Scan I2C bus for device responses
 
 #define SDA_PORT PORTD

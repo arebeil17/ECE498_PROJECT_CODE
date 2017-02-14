@@ -19,7 +19,6 @@ Identify::Identify(){
        port[1 + 3*i] = ROOT_PIN + 2*(i + 1) + 6*(i); pinMode(port[1 + 3*i], INPUT);
        port[2 + 3*i] = ROOT_PIN + 2*(i + 2) + 6*(i); pinMode(port[2 + 3*i], INPUT);
     }
-
 }
 /**************************************************************************************************/
 bool Identify::readPorts(){
