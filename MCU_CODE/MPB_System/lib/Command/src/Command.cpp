@@ -25,12 +25,14 @@ void Command::setUpdated(bool update){
 	updated = update;
 }
 /**************************************************************************************************/
+//Set all command data with given dataPacket
 void Command::setDataPacket(unsigned char newPacket[]){
 
 		masterControl = newPacket[0];
 		subCommand[0].setDataPacket(newPacket[5], newPacket[6]);
 		subCommand[1].setDataPacket(newPacket[3], newPacket[4]);
 		subCommand[2].setDataPacket(newPacket[1], newPacket[2]);
+		updateCommandData();
 }
 
 /**************************************************************************************************/

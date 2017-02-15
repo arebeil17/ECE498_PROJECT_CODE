@@ -26,40 +26,56 @@ bool CommDirector::recieve(){
   int size = Serial.available();
   unsigned char buffer[size];
 
-    if(size >= 3){ //Check if serial data available
+    if(size >= 7){ //Check if serial data available
        led.setLED(RECIEVE);
       //Serial.readBytes(buf, len)
        Serial.readBytes(buffer, size);
-       command.dataPacket[0] = buffer[0];
-       command.dataPacket[1] = buffer[1];
-       command.dataPacket[2] = buffer[2];
-       command.setCommandData();
+       command.setDataPacket(buffer);
        delay(50);
        return true;
     }
     return false;
 }
 /**************************************************************************************************/
+//Transmit bay and payload status to Pi
 void CommDirector::transmit(){
     led.setLED(SEND);
     //Serial.write(buf, len)
-    reply.setDataPacket();
-    if(!Serial.write(reply.dataPacket, 2)){
-      led.setLED(7); //Orange status for not data sent
+    reply.updateDataPacket();
+    if(!Serial.write(reply.dataPacket, 7)){
+      led.setLED(7); //Orange status for no data sent
     }
     Serial.flush();
 }
 /**************************************************************************************************/
+//Recieve data from specified payload slot
+bool CommDirector::subRecieve(int slot){
+    switch(slot){
+      case 1:
+        if(!Serial1.readBytes(reply.subReply[0].dataPacket, 2)) return false;
+        return true;
+      case 2:
+        if(!Serial2.readBytes(reply.subReply[1].dataPacket, 2)) return false;
+        return true;
+      case 3:
+        if(!Serial3.readBytes(reply.subReply[2].dataPacket, 2)) return false;
+        return true;
+      default:
+        return false;
+    }
+}
+/**************************************************************************************************/
+//Transmit currently stored command to specified payload/module slot
 bool CommDirector::subTransmit(int slot){
     switch(slot){
       case 1:
-        if(!Serial1.write(subCommand[0].dataPacket, 2)) return false;
+        if(!Serial1.write(command.subCommand[0].dataPacket, 2)) return false;
         return true;
       case 2:
-        if(!Serial1.write(subCommand[1].dataPacket, 2)) return false;
+        if(!Serial2.write(command.subCommand[1].dataPacket, 2)) return false;
         return true;
       case 3:
-        if(!Serial1.write(subCommand[2].dataPacket, 2)) return false;
+        if(!Serial3.write(command.subCommand[2].dataPacket, 2)) return false;
         return true;
       default:
         return false;
@@ -79,10 +95,9 @@ void CommDirector::startUp(){
     delay(500);
 }
 /**************************************************************************************************/
+//Initiliazize bay with current configuration
 void CommDirector::initConfig(int activeSlots, int config1, int config2, int config3){
-    startUp();
-    reply.setDataPacket(0x00 , (activeSlots & 0xC0)| (config1 & 0x30) |
-                               (config1 & 0x0C)    | (config1 & 0x03));
+
     transmit(); //Transmit configuration to Pi
 }
 /**************************************************************************************************/

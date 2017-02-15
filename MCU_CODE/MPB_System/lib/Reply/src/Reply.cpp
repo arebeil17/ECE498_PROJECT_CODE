@@ -52,17 +52,17 @@ bool Reply::setDataPacket(int slot, unsigned char newPacket[]){
 				case 1:
 					dataPacket[5] = newPacket[0];
 					dataPacket[6] = newPacket[1];
-					subReply[0].setReplyData(newPacket);
+					subReply[0].setDataPacket(newPacket);
 					return true;
 				case 2:
 				  dataPacket[3] = newPacket[0];
 				  dataPacket[4] = newPacket[1];
-					subReply[1].setReplyData(newPacket);
+					subReply[1].setDataPacket(newPacket);
 					return true;
 				case 3:
 				  dataPacket[1] = newPacket[0];
 				  dataPacket[2] = newPacket[1];
-					subReply[2].setReplyData(newPacket);
+					subReply[2].setDataPacket(newPacket);
 					return true;
 				default:
 					return false;

@@ -38,13 +38,13 @@ class SubReply {
 		SubReply( unsigned char dataPacket[]);
 
 		//Update current data packet vector
-		void setDataPacket(unsigned char status, unsigned char currentCommand);
+		void setReplyData(unsigned char status, unsigned char currentCommand);
 
 		//Getters and setters for SubReply class private members
 		bool isUpdate();
 		void setUpdate(bool update);
 
-		void setReplyData(unsigned char newPacket[]);
+		void setDataPacket(unsigned char newPacket[]);
 		//Updates SubReply class data with data stored in dataPacket buffer
 		void updateReplyData();
 

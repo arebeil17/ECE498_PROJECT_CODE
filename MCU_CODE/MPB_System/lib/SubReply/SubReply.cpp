@@ -32,11 +32,8 @@ SubReply::SubReply(unsigned char dataPacket[])
 	this->dataPacket[1] = dataPacket[1];
 }
 /**************************************************************************************************/
-void SubReply::setDataPacket(unsigned char status, unsigned char currentCommand)
+void SubReply::setReplyData(unsigned char status, unsigned char currentCommand)
 {
-	dataPacket[0] = status;
-	dataPacket[1] = currentCommand;
-
   mode = (status & 0x08);
   lcd = (status & 0x04);
   sound = (status & 0x02);
@@ -46,12 +43,14 @@ void SubReply::setDataPacket(unsigned char status, unsigned char currentCommand)
 }
 
 /**************************************************************************************************/
-void SubReply::setReplyData(unsigned char newPacket[])
+void SubReply::setDataPacket(unsigned char newPacket[])
 {
-	// this->dataPacket[0] = newPacket[0];
-	// this->dataPacket[1] = newPacket[1];
-	// this->dataPacket[2] = newPacket[2];
-	setDataPacket(newPacket[0], newPacket[1]);
+  dataPacket[0] = newPacket[0];
+	dataPacket[1] = newPacket[1];
+  status = newPacket[0];
+  currentCommand = newPacket[1];
+
+	setReplyData(dataPacket[0], dataPacket[1]);
 }
 /**************************************************************************************************/
 void SubReply::updateReplyData()

@@ -50,9 +50,6 @@ void SubCommand::setDataPacket(unsigned char control, unsigned char command)
 /**************************************************************************************************/
 void SubCommand::setDataPacket(unsigned char newPacket[])
 {
-	// this->dataPacket[0] = newPacket[0];
-	// this->dataPacket[1] = newPacket[1];
-	// this->dataPacket[2] = newPacket[2];
 	setDataPacket(newPacket[0], newPacket[1]);
 }
 /**************************************************************************************************/

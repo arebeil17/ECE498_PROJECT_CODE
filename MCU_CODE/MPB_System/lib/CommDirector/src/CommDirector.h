@@ -15,7 +15,6 @@
 #include "stdlib.h"
 #include "math.h"
 #include "Command.h"
-#include "SubCommand.h"
 #include "Status.h"
 #include "Reply.h"
 #include "led.h"
@@ -29,16 +28,19 @@ class CommDirector {
 	public:
     Led led;
     Command command;
-		SubCommand subCommand[3];
+		Reply reply;
+		//SubCommand subCommand[3];
 		Status status[3];
-    Reply reply;
+
 
     CommDirector();
 		CommDirector(int activeSlots);
 		//check for data from Pi and store it
     bool recieve();
-		//Transmit bay status to Pi
+		//Transmit bay and payload status to Pi
     void transmit();
+		//Recieve data from specified payload slot
+		bool subRecieve(int slot);
 		//Transmit currently stored command to specified payload/module slot
 		bool subTransmit(int slot);
 

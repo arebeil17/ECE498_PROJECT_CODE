@@ -33,16 +33,12 @@ class Command {
 		SubCommand subCommand[3];
 
 		Command();
-		//Customer constructor for command class
+		//CustUm constructor for command class
 		//Command(bool update, int priority, unsigned char dataPacket[]);
-
-		//Update current data packet vector
-		void updateDataPacket(unsigned char control, unsigned char config, unsigned char command);
-
 		//Getters and setters for Command class private members
 		bool isUpdated();
 		void setUpdated(bool update);
-
+    //Set all command data with given dataPacket
 		void setDataPacket(unsigned char newPacket[]);
 		//Updates command class data with data stored in dataPacket buffer
 		void updateCommandData();
