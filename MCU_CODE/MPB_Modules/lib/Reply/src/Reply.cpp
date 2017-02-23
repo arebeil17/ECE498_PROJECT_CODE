@@ -51,8 +51,10 @@ void Reply::setReplyData(unsigned char status, unsigned char currentCommand)
   lcd = (status & 0x04);
   sound = (status & 0x02);
   led = (status & 0x01);
-  this->state = (status &  0xF0);
+  this->state = ((status &  0xF0) >> 4);
 	this->currentCommand = currentCommand;
+  dataPacket[0] = status;
+	dataPacket[1] = currentCommand;
 }
 
 /**************************************************************************************************/

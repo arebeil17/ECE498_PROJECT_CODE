@@ -19,6 +19,7 @@
 #include "Reply.h"
 #include "led.h"
 /**************************************************************************************************/
+#define START_BYTE 0xCC
 
 using namespace std;
 
@@ -38,7 +39,7 @@ class CommDirector {
 		//check for data from Pi and store it
     bool recieve();
 		//Transmit bay and payload status to Pi
-    void transmit();
+    bool transmit();
 		//Recieve data from specified payload slot
 		bool subRecieve(int slot);
 		//Transmit currently stored command to specified payload/module slot

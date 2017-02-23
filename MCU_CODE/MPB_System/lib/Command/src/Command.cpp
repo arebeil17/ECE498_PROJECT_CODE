@@ -38,13 +38,13 @@ void Command::setDataPacket(unsigned char newPacket[]){
 /**************************************************************************************************/
 //Updates command class data with data stored in dataPacket buffer
 void Command::updateCommandData(){
-		mode = (masterControl & 0xC0);
+		mode = (masterControl & 0xF0) >> 4;
 		hiPriority[0] = subCommand[0].hiPriority;
 		hiPriority[1] = subCommand[1].hiPriority;
 		hiPriority[2] = subCommand[2].hiPriority;
 		slotEnable[0] = masterControl & 0x01;
-		slotEnable[1] = masterControl & 0x02;
-		slotEnable[2] = masterControl & 0x04;
+		slotEnable[1] = (masterControl & 0x02) >> 2;
+		slotEnable[2] = (masterControl & 0x04) >> 3;
 }
 // void Command::print()
 // {

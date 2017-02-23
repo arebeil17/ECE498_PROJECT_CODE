@@ -40,7 +40,7 @@ void setup() {
     lcd.print("Ready!");
     delay(1000);
     lcd.setCursor(0 , 1);
-    lcd.print("Data recieved.");
+    //lcd.print("Data recieved.");
     t1.every(PERIOD1, recieveTest);
     t2.every(PERIOD2, rainbow);
 }
@@ -71,7 +71,7 @@ void recieveTest(){
   if(commDirector.recieve()){
     lcd.clear();
     lcd.print("Receiving");
-    sprintf(temp,"config:%c command:%i", commDirector.command.dataPacket[0],
+    sprintf(temp,"config:%i command:%i", commDirector.command.dataPacket[0],
                                          commDirector.command.dataPacket[1]);
     lcd.setCursor(0, 1);
     lcd.print(temp);
@@ -82,8 +82,8 @@ void recieveTest(){
 void echo(){
   lcd.setCursor(0, 2);
   lcd.print("Transmitting");
-  commDirector.command.setDataPacket('B' , commDirector.command.dataPacket[1]);
-  sprintf(temp,"status:%c command:%i", commDirector.reply.dataPacket[0],
+  commDirector.reply.setReplyData(commDirector.command.dataPacket[0], commDirector.command.dataPacket[1]);
+  sprintf(temp,"status:%i command:%i", commDirector.reply.dataPacket[0],
                                         commDirector.reply.dataPacket[1]);
   lcd.setCursor(0, 3);
   lcd.print(temp);

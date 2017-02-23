@@ -16,6 +16,7 @@ public class CommDirector {
     public Command command;
     public Reply reply;
     public Serial serial = SerialFactory.createInstance();
+    public static byte START_BYTE = (byte) 0xCC;
 
     public CommDirector(){
         command = new Command();

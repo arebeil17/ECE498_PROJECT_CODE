@@ -16,13 +16,14 @@ CommDirector::CommDirector(){
 /**************************************************************************************************/
 //Recieves command from master control module
 bool CommDirector::recieve(){
-  int size = Serial.available();
+  int size = Serial1.available();
   unsigned char buffer[size];
 
-    if(size >= 2){ //Check if serial data available
+    if(size >= 3){ //Check if serial data available
       //Serial.readBytes(buf, len)
-       Serial.readBytes(buffer, size);
-       command.setDataPacket(buffer);
+       Serial1.readBytes(buffer, size);
+       if(buffer[0] != START_BYTE) return false;
+       command.setDataPacket(buffer[1], buffer[2]);
        return true;
     }
     return false;
@@ -32,9 +33,16 @@ bool CommDirector::recieve(){
 void CommDirector::transmit(){
     //Serial.write(buf, len)
     reply.updateReplyData();
-    if(!Serial.write(reply.dataPacket, 2)){
+    unsigned char buffer[3];
+    buffer[0] = START_BYTE;
+    buffer[1] = reply.dataPacket[0];
+    buffer[2] = reply.dataPacket[1];
+    //Serial.print("Buffer: "); Serial.print(buffer[0]);
+    //Serial.print(" "); Serial.print(buffer[1]);
+    //Serial.print(" "); Serial.println(buffer[2]);
+    if(!Serial1.write(buffer, 3)){
     }
-    Serial.flush();
+    Serial1.flush();
 }
 
 /**************************************************************************************************/

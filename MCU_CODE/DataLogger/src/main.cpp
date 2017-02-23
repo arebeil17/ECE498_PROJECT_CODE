@@ -4,13 +4,17 @@
 #include "RTClib.h"
 #include <Adafruit_LIS3DH.h>
 #include <Adafruit_Sensor.h>
+#include <Timer.h>
 
 // A simple data logger for the Arduino analog pins
-
-// how many milliseconds between grabbing data and logging it. 1000 ms is once a second
-#define LOG_INTERVAL  100 // mills between entries (reduce to take more/faster data)
 #define redLED 3
 #define greenLED 2
+// how many milliseconds between grabbing data and logging it. 1000 ms is once a second
+#define LOG_INTERVAL  1 // mills between entries (reduce to take more/faster data)
+const unsigned long PERIOD1 = 1;    //one second
+const unsigned long PERIOD2 = 50;    //one second
+Timer t1;
+Timer t2;
 // how many milliseconds before writing the logged data permanently to disk
 // set it to the LOG_INTERVAL to write each time (safest)
 // set it to 10*LOG_INTERVAL to write all data every 10 datareads, you could lose up to
@@ -18,10 +22,13 @@
 #define SYNC_INTERVAL 1000 // mills between calls to flush() - to write data to the card
 uint32_t syncTime = 0; // time of last sync()
 
-#define ECHO_TO_SERIAL   1 // echo data to serial port
+#define ECHO_TO_SERIAL   0// echo data to serial port
 #define WAIT_TO_START    0 // Wait for serial input in setup()
 
 Adafruit_LIS3DH lis = Adafruit_LIS3DH();
+//lis.read();      // get X Y and Z data at once
+/* Or....get a new sensor event, normalized */
+sensors_event_t event;
 
 #if defined(ARDUINO_ARCH_SAMD)
 // for Zero, output on USB Serial console, remove line below if using programming port to program the Zero!
@@ -38,7 +45,9 @@ File logfile;
 
 bool toggle = false;
 bool pressed= false;
-bool released = false;
+
+void logData();
+void input();
 
 void error(char *str)
 {
@@ -58,7 +67,7 @@ void setup(void)
     while (!Serial);     // will pause Zero, Leonardo, etc until serial console opens
   #endif
 
-    Serial.begin(9600);
+    Serial.begin(38400);
     Serial.println("LIS3DH test!");
 
     if (! lis.begin(0x18)) {   // change this to 0x19 for alternative i2c address
@@ -128,26 +137,38 @@ void setup(void)
 delay(1000);
   // If you want to set the aref to something other than 5v
   analogReference(EXTERNAL);
+
+  t1.every(PERIOD1, logData);
+  t2.every(PERIOD2, input);
 }
 
 void loop(void)
 {
+  t1.update();
+  t2.update();
+}
+
+void input(){
   if(digitalRead(7)) {
-    pressed = true; released = false;
+    pressed = true;
     Serial.println("Button Pressed");
   }else if(!digitalRead(7)) {
-    if(pressed) {toggle = !toggle; Serial.println("Button Toggled");}
-    pressed = false; released = true;
+    if(pressed){
+      toggle = !toggle;
+      Serial.println("Button Toggled");
+      if(toggle){
+       Serial.println("Logging Data.");
+       digitalWrite(greenLED, HIGH);
+       digitalWrite(redLED, LOW);
+     }
+    }
+    pressed = false;
   }
+}
 
-  digitalWrite(greenLED, LOW);
-  digitalWrite(redLED, HIGH);
+void logData()
+{
   if(toggle){
-      digitalWrite(greenLED, HIGH);
-      digitalWrite(redLED, LOW);
-      lis.read();      // get X Y and Z data at once
-      /* Or....get a new sensor event, normalized */
-      sensors_event_t event;
       lis.getEvent(&event);
       // Then print out the raw data
       /* Display the results (acceleration is measured in m/s^2) */
@@ -156,11 +177,11 @@ void loop(void)
     //  Serial.print(" \tZ: "); Serial.print(event.acceleration.z);
     //  Serial.println(" m/s^2 ");
 
-      DateTime now;
+      //DateTime now;
 
       // delay for the amount of time we want between readings
-      delay((LOG_INTERVAL -1) - (millis() % LOG_INTERVAL));
-
+      //delay((LOG_INTERVAL -1) - (millis() % LOG_INTERVAL));
+      //delay(LOG_INTERVAL);
       // log milliseconds since starting
       uint32_t m = millis();
       logfile.print(m);           // milliseconds since start
@@ -169,17 +190,17 @@ void loop(void)
       Serial.print(m);         // milliseconds since start
       Serial.print(", ");
     #endif
-      logfile.print(event.acceleration.x);
-      logfile.print(", ");
-      logfile.print(event.acceleration.y);
-      logfile.print(", ");
+      //logfile.print(event.acceleration.x);
+      //logfile.print(", ");
+      //logfile.print(event.acceleration.y);
+      //logfile.print(", ");
       logfile.print(event.acceleration.z);
       logfile.print(", ");
     #if ECHO_TO_SERIAL
-      Serial.print(event.acceleration.x);
-      Serial.print(", ");
-      Serial.print(event.acceleration.y);
-      Serial.print(", ");
+      //Serial.print(event.acceleration.x);
+      //Serial.print(", ");
+      //Serial.print(event.acceleration.y);
+      //Serial.print(", ");
       Serial.print(event.acceleration.z);
       Serial.print(", ");
     #endif //ECHO_TO_SERIAL
@@ -198,6 +219,8 @@ void loop(void)
       logfile.flush();
   }else{
     Serial.println("Stopped Logging Data.");
-    delay(500);
+    delay(250);
+    digitalWrite(greenLED, LOW);
+    digitalWrite(redLED, HIGH);
   }
 }

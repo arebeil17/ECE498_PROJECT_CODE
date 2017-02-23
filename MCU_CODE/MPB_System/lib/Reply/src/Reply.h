@@ -22,7 +22,7 @@
 #define EMPTY 0
 #define LED 1
 #define SOUND 2
-
+#define START_BYTE 0xCC
 
 using namespace std;
 
@@ -35,7 +35,7 @@ class Reply
 		unsigned char masterState;
 		unsigned int activeSlots;
 		SubReply subReply[3];
-		unsigned char dataPacket[7];
+		unsigned char dataPacket[8];
 
 		Reply();
 		//Set the reply ready to send flag

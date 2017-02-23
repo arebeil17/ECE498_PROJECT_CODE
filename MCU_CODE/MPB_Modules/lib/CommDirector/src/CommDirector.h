@@ -17,6 +17,7 @@
 #include "Command.h"
 #include "Reply.h"
 /**************************************************************************************************/
+#define START_BYTE 0xCC
 
 using namespace std;
 

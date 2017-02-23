@@ -1,5 +1,5 @@
 /*
-* File: ModuleController.cpp
+* File: MasterController.cpp
 * Author: Andres Rebeil
 * NetID: andres07
 * Date: January 3rd, 2017
@@ -8,12 +8,12 @@
 *
 */
 /**************************************************************************************************/
-#include "ModuleController.h"
+#include "MasterController.h"
 /**************************************************************************************************/
 
-ModuleController::ModuleController()
+MasterController::MasterController()
 {
-    id.readPorts(); //Determine loaded payload modules
-    
+    //id.readPorts(); //Determine loaded payload modules
+
 }
 /**************************************************************************************************/
