@@ -17,7 +17,7 @@ public class CommDirector {
     public Reply reply;
     public Serial serial = SerialFactory.createInstance();
     public static byte START_BYTE = (byte) 0xCC;
-
+    
     public CommDirector(){
         command = new Command();
         reply   = new Reply();
@@ -31,12 +31,20 @@ public class CommDirector {
                 // print out the data received to the console
                 try {
                     DataBuffer.read(event.getBytes().length, event.getBytes());
-                    System.out.println("\nReceiving Data... [HEX DATA] :" 
-                                       + event.getHexByteString() + " [BYTE DATA] :" 
-                                       + DataBuffer.readBuffer[0] 
-                                       + DataBuffer.readBuffer[1] 
-                                       +" [ASCII DATA]:" + event.getAsciiString());
-                    recieve(); //recieve data stored in dataBuffer
+                        System.out.println("\nReceiving Data... [HEX DATA] :" 
+                                           + event.getHexByteString() + " [BYTE DATA] :" 
+                                           //+ DataBuffer.readBuffer[0] 
+                                           +" " +DataBuffer.readBuffer[1]
+                                           //+ DataBuffer.readBuffer[2] 
+                                           //+ DataBuffer.readBuffer[3] 
+                                           //+ DataBuffer.readBuffer[4] 
+                                           //+ DataBuffer.readBuffer[5]
+                                           +" " +DataBuffer.readBuffer[6] 
+                                           +" " +DataBuffer.readBuffer[7] 
+                                           +" [ASCII DATA]:" + event.getAsciiString());
+                        if(!recieve()) //recieve data stored in dataBuffer
+                            System.out.println("Recieved insufficient or corrupted data.");
+                    
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -83,23 +91,27 @@ public class CommDirector {
 
     public boolean transmit(){
         try{
-            System.out.println("Transmitting Data... Sent: "+ command.dataPacket[0]
-                                                            + command.dataPacket[1]
-                                                            + (int) command.dataPacket[2]);
+            System.out.println("Transmitting Data... Sent: "+ (byte) command.dataPacket[1]
+                                                            +", [" +(byte) command.dataPacket[2]
+                                                            +" " +(byte) command.dataPacket[3]
+                                                            +"], [" +(byte) command.dataPacket[4]
+                                                            +" " +(byte) command.dataPacket[5]
+                                                            +"], [" +(byte) command.dataPacket[6]
+                                                            +" " +(byte) command.dataPacket[7] +"]");
             serial.write(command.dataPacket);
         }
         catch(IOException ex){
                     ex.printStackTrace();
         }
         Status.transmit = false; // reset transmit flag
-        return false;
+        return true;
     }
 
     public boolean recieve(){
-        if(DataBuffer.validBytes > 0){
+        if(DataBuffer.validBytes >= 7){
             System.out.println("Reply Confirmed...");
-            reply.setDataPacket(DataBuffer.readBuffer[0],
-                                DataBuffer.readBuffer[1]);
+            if(DataBuffer.readBuffer[0] != START_BYTE) return false;
+            reply.setDataPacket(DataBuffer.readBuffer);
             return true;
         }
         return false;

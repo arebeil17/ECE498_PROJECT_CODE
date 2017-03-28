@@ -13,24 +13,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTabbedPane;
 import java.awt.Font;
 import java.awt.SystemColor;
-import java.awt.Color;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.border.LineBorder;
-import java.awt.GridLayout;
-import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import model.Status;
-import java.util.ArrayList;
-import java.awt.FlowLayout;
-import javax.swing.JComboBox;
-import javax.swing.JToggleButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.UIManager;
 import javax.swing.UIManager.*;
 
@@ -45,8 +31,17 @@ public class MPB_GUI extends JFrame{
     /**
      * Launch the application.
      */
-
     public static void main(String[] args) {
+        try {
+            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
             EventQueue.invokeLater(new Runnable() {
                     public void run() {
                             try {
@@ -72,7 +67,7 @@ public class MPB_GUI extends JFrame{
 
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBackground(SystemColor.inactiveCaption);
-        tabbedPane.setFont(new Font("Tahoma", Font.BOLD, 20));
+        tabbedPane.setFont(new Font("Tahoma", Font.BOLD, 18));
         contentPane.add(tabbedPane);
 
         initSimPanel();

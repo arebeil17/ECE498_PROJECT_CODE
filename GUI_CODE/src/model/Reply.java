@@ -18,6 +18,7 @@ public class Reply {
     public int config1;
     public int config2;
     public int config3;
+    public static byte START_BYTE = (byte) 0xCC;
     public byte[] dataPacket;
 
     public Reply(){
@@ -31,28 +32,19 @@ public class Reply {
         config2 = 0;
         config3 = 0;
 
-        dataPacket = new byte[2];
-        dataPacket[0] = 0;
-        dataPacket[1] = 0;
+        dataPacket = new byte[7];
+        //dataPacket[0] = START_BYTE;
     }
 
-    public void setDataPacket()
+    public void updateDataPacket()
     {
         dataPacket[0] = (byte) ((status << 4) | (mode << 3) | (confirmation));
         dataPacket[1] = (byte) ((activeSlots << 6) | (config1 << 4) | (config2 << 2) | (config3));
     }
 
-    public void setDataPacket(int status, int mode, int confirmation, int activeSlots, int config1, int config2, int config3)
+    public void setDataPacket(byte[] newPacket)
     {
-        this.status = status;
-        this.mode = mode;
-        this.confirmation = confirmation;
-        this.activeSlots = activeSlots;
-        this.config1 = config1;
-        this.config2 = config2;
-        this.config3 = config3;
-        dataPacket[0] = (byte) ((status << 4) | (mode << 3) | (confirmation));
-        dataPacket[1] = (byte) ((activeSlots << 6) | (config1 << 4) | (config2 << 2) | (config3));
+        System.arraycopy(newPacket, 0, dataPacket, 0, 7);
     }
 
     public void setDataPacket(byte status, byte config) 

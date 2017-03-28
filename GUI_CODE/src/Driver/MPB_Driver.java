@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Driver;
+package driver;
 
 import com.pi4j.io.serial.Baud;
 import com.pi4j.io.serial.DataBits;
@@ -16,16 +16,10 @@ import com.pi4j.io.serial.SerialDataEventListener;
 import com.pi4j.io.serial.SerialFactory;
 import com.pi4j.io.serial.StopBits;
 import com.pi4j.util.Console;
-
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-
 import model.CommDirector;
 import model.DataBuffer;
 import model.Status;
@@ -43,21 +37,6 @@ public class MPB_Driver {
     boolean ready = false;
     
     public static void main(String[] args )throws InterruptedException{
-        UIManager.put("nimbusBase", Color.GRAY);
-        UIManager.put("nimbusBlueGrey", new Color(110, 193, 248));
-        UIManager.put("control", Color.WHITE);
-        UIManager.put("nimbusSelectedText", Color.GREEN);
-        try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
-        
 
         boolean running = true;
         MPB_GUI mpb_GUI = new MPB_GUI();
@@ -65,15 +44,24 @@ public class MPB_Driver {
         CommDirector commDirector = new CommDirector();
         Status.initialize();
         DataBuffer.initialize(64);
-       
+
         mpb_GUI.simPanel.btnSend.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent arg0) {
-                        Status.command = (byte) mpb_GUI.simPanel.checkButtons();
-                        commDirector.command.updateDataPacket(Status.getControlData(), 
-                                                              Status.getConfigData(), 
-                                                              Status.getCommandData());
+                        commDirector.command.simultInputUpdate((byte) 0x11,
+                                                               (byte) 0x00,
+                                                               (byte) mpb_GUI.simPanel.checkButtons());
                         Status.transmit = true;
+                }
+        });
+          mpb_GUI.independentPanel.btnSend.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent arg0) {
+                    Status.command = (byte) mpb_GUI.independentPanel.optionBox.get(Status.select).getSelectedIndex();
+                    commDirector.command.updateDataPacket(Status.getControlData(), 
+                                                          Status.getConfigData(), 
+                                                          Status.getCommandData());
+                    Status.transmit = true;
                 }
         });
         //Check whether serial communication is working

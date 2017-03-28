@@ -1,28 +1,22 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import model.Status;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class IndependentPanel extends JPanel {
 	
@@ -31,12 +25,16 @@ public class IndependentPanel extends JPanel {
     public ArrayList<JComboBox> optionBox;
     public final ButtonGroup enableGroup = new ButtonGroup();
     public JButton btnSend;
-    public int selectedSlot = 1;
+    public int selectedSlot = 0;
+    public int optionSelected = 1;
+    private boolean enable1 = false;
+    private boolean enable2 = false;
+    private boolean enable3 = false;
 
-	/**
-	 * Create the panel.
-	 */
-	public IndependentPanel() {
+    /**
+     * Create the panel.
+     */
+    public IndependentPanel() {
         setBackground(SystemColor.control);
      
         enableBtn = new ArrayList<JToggleButton>();
@@ -129,78 +127,107 @@ public class IndependentPanel extends JPanel {
         
         enableBtn.get(0).addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		checkSelectedSlots();
+        		checkSelectedSlot();
         		updateEnabledSelection();
         		System.out.println(selectedSlot);
         	}
         });
         enableBtn.get(1).addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		checkSelectedSlots();
+        		checkSelectedSlot();
         		updateEnabledSelection();
         		System.out.println(selectedSlot);
         	}
         });
         enableBtn.get(2).addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		checkSelectedSlots();
+        		checkSelectedSlot();
         		updateEnabledSelection();
         		System.out.println(selectedSlot);
         	}
         });
         updateEnabledSelection();
-	}
+    }
 	
-	public int checkSelectedSlots(){
-		if(enableBtn.get(0).isSelected()){
-			selectedSlot = 1; return 1;
-		}
-		if(enableBtn.get(1).isSelected()){
-			selectedSlot = 2; return 2;
-		}
-		if(enableBtn.get(2).isSelected()){
-			selectedSlot = 3; return 3;
-		}
-		return 0;
-	}
+    public int checkSelectedSlot(){
+            if(enableBtn.get(0).isSelected()){
+                    selectedSlot = 1; return 1;
+            }
+            if(enableBtn.get(1).isSelected()){
+                    selectedSlot = 2; return 2;
+            }
+            if(enableBtn.get(2).isSelected()){
+                    selectedSlot = 3; return 3;
+            }
+            return 0;
+    }
 	
-	public void updateEnabledSelection(){
-		switch (selectedSlot){
-			case 1:
-				enableBtn.get(0).setText("Enabled");
-				enableBtn.get(1).setText("Disabled");
-				enableBtn.get(2).setText("Disabled");
-				indePayloadStatus.get(0).setEnabled(true); indePayloadStatus.get(0).setBackground(Color.WHITE);
-				indePayloadStatus.get(1).setEnabled(false); indePayloadStatus.get(1).setBackground(Color.DARK_GRAY);
-				indePayloadStatus.get(2).setEnabled(false); indePayloadStatus.get(2).setBackground(Color.DARK_GRAY);
-				optionBox.get(0).setEnabled(true); optionBox.get(0).setBackground(Color.WHITE);
-				optionBox.get(1).setEnabled(false); optionBox.get(1).setBackground(Color.DARK_GRAY);
-				optionBox.get(2).setEnabled(false); optionBox.get(2).setBackground(Color.DARK_GRAY);
-				break;
-			case 2:
-				enableBtn.get(0).setText("Disabled");
-				enableBtn.get(1).setText("Enabled");
-				enableBtn.get(2).setText("Disabled");
-				indePayloadStatus.get(0).setEnabled(false);indePayloadStatus.get(0).setBackground(Color.DARK_GRAY);
-				indePayloadStatus.get(1).setEnabled(true); indePayloadStatus.get(1).setBackground(Color.WHITE);
-				indePayloadStatus.get(2).setEnabled(false);indePayloadStatus.get(2).setBackground(Color.DARK_GRAY);
-				optionBox.get(0).setEnabled(false); optionBox.get(0).setBackground(Color.DARK_GRAY);
-				optionBox.get(1).setEnabled(true); optionBox.get(1).setBackground(Color.WHITE);
-				optionBox.get(2).setEnabled(false); optionBox.get(2).setBackground(Color.DARK_GRAY);
-				break;
-			case 3:
-				enableBtn.get(0).setText("Disabled");
-				enableBtn.get(1).setText("Disabled");
-				enableBtn.get(2).setText("Enabled");
-				indePayloadStatus.get(0).setEnabled(false);indePayloadStatus.get(0).setBackground(Color.DARK_GRAY);
-				indePayloadStatus.get(1).setEnabled(false);indePayloadStatus.get(1).setBackground(Color.DARK_GRAY);
-				indePayloadStatus.get(2).setEnabled(true); indePayloadStatus.get(2).setBackground(Color.WHITE);
-				optionBox.get(0).setEnabled(false); optionBox.get(0).setBackground(Color.DARK_GRAY);
-				optionBox.get(1).setEnabled(false); optionBox.get(1).setBackground(Color.DARK_GRAY);
-				optionBox.get(2).setEnabled(true); optionBox.get(2).setBackground(Color.WHITE);
-				break;
-		}
-		
-	}
+    public void updateEnabledSelection(){
+    	Color red = new Color(180,100,100);
+    	Color green = new Color(50,225,100);
+    	
+        switch (selectedSlot){
+            case 1:
+            		enable1 = !enable1;
+                    if(enable1){enableBtn.get(0).setText("Enabled"); 
+	                    indePayloadStatus.get(0).setEnabled(true);
+	                    optionBox.get(0).setEnabled(true);
+	                    optionSelected = optionBox.get(0).getSelectedIndex();
+	                    enableBtn.get(0).setBackground(green);
+                    }else{
+                    	enableBtn.get(0).setText("Disabled");
+                    	indePayloadStatus.get(0).setEnabled(false);
+	                    optionBox.get(0).setEnabled(false);
+	                    optionSelected = optionBox.get(0).getSelectedIndex();
+	                    enableBtn.get(0).setBackground(red);	
+	                }
+                    break;
+            case 2:
+            		enable2 = !enable2;
+                    if(enable2){enableBtn.get(1).setText("Enabled"); 
+	                    indePayloadStatus.get(1).setEnabled(true);
+	                    optionBox.get(1).setEnabled(true);
+	                    optionSelected = optionBox.get(1).getSelectedIndex();
+	                    enableBtn.get(1).setBackground(green);
+	                }else{
+	                	enableBtn.get(1).setText("Disabled");
+	                	indePayloadStatus.get(1).setEnabled(false);
+	                    optionBox.get(1).setEnabled(false);
+	                    optionSelected = optionBox.get(1).getSelectedIndex();
+	                    enableBtn.get(1).setBackground(red);	
+	                }
+                    break;
+            case 3:
+            		enable3 = !enable3;
+                    if(enable3){enableBtn.get(2).setText("Enabled"); 
+	                    indePayloadStatus.get(2).setEnabled(true);
+	                    optionBox.get(2).setEnabled(true);
+	                    optionSelected = optionBox.get(2).getSelectedIndex();
+	                    enableBtn.get(2).setBackground(green);
+	                }else{
+	                	enableBtn.get(2).setText("Disabled");
+	                	indePayloadStatus.get(2).setEnabled(false);
+	                    optionBox.get(2).setEnabled(false);
+	                    optionSelected = optionBox.get(2).getSelectedIndex();
+	                    enableBtn.get(2).setBackground(red);	
+	                }
+                    break;
+             default:
+            	 enableBtn.get(0).setText("Disabled"); 
+                 enableBtn.get(1).setText("Disabled"); 
+                 enableBtn.get(2).setText("Disabled");
+                 indePayloadStatus.get(0).setEnabled(false);
+                 indePayloadStatus.get(1).setEnabled(false);
+                 indePayloadStatus.get(2).setEnabled(false);
+                 optionBox.get(0).setEnabled(false);
+                 optionBox.get(1).setEnabled(false);
+                 optionBox.get(2).setEnabled(false);
+                 optionSelected = optionBox.get(0).getSelectedIndex();
+                 enableBtn.get(0).setBackground(red);
+                 enableBtn.get(1).setBackground(red);
+                 enableBtn.get(2).setBackground(red);
+            	 break;
+        }
+    }
 
 }

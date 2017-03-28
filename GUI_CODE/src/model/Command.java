@@ -14,18 +14,17 @@ public class Command {
     public int config;
     public char command;
     public byte[] dataPacket;
-
+    public static byte START_BYTE = (byte) 0xCC;
     public static int NORMAL = 2;
     public static int CRITICAL = 3;
     public static int NONE = 0;
 
     public Command(){
-            dataPacket = new byte[3];
+            dataPacket = new byte[8];
             update = false;
             priority =  NORMAL;
-            dataPacket[0] = 0;
-            dataPacket[1] = 0;
-            dataPacket[2] = 0;
+            dataPacket[0] = START_BYTE;
+            for(int i = 1; i < 8; i++) dataPacket[i] = 0;
     }
 
     public void updateDataPacket(byte control, byte config, byte command){
@@ -34,15 +33,24 @@ public class Command {
             dataPacket[1] = config;
             dataPacket[2] = command;
 
-            mode =	       (control & 0xF0) >> 4;
+            mode =	   (control & 0xF0) >> 4;
             priority =     (control & 0x0F);
             select =       (config & 0xF0) >> 4;
             this.config =  (config & 0x0F);
             this.command = (char) command;
     }
+    //Update command dataPacket with control
+    //Simultaneous input makes all submodule flags, and commands the same
+    public void simultInputUpdate(byte control, byte flag, byte command){
+            dataPacket[1] = control;
+            for(int i = 2; i < 8; i = i + 2){
+                    dataPacket[i] = (byte)(0x10 | (flag & 0x0F));
+                    dataPacket[i+1] = command;
+            }
+    }
 
     public void setCommandData(){
-            mode =	       (dataPacket[0] & 0xF0) >> 4;
+            mode =	   (dataPacket[0] & 0xF0) >> 4;
             priority =     (dataPacket[0] & 0x0F);
             select =       (dataPacket[1] & 0xF0) >> 4;
             config = 	   (dataPacket[1] & 0x0F);
