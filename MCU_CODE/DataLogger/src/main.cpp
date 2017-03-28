@@ -11,8 +11,8 @@
 #define greenLED 2
 // how many milliseconds between grabbing data and logging it. 1000 ms is once a second
 #define LOG_INTERVAL  1 // mills between entries (reduce to take more/faster data)
-const unsigned long PERIOD1 = 1;    //one second
-const unsigned long PERIOD2 = 50;    //one second
+const unsigned long PERIOD1 = 1;    // 1 millisecond
+const unsigned long PERIOD2 = 50;   // 50 millisecond
 Timer t1;
 Timer t2;
 // how many milliseconds before writing the logged data permanently to disk
@@ -22,7 +22,8 @@ Timer t2;
 #define SYNC_INTERVAL 1000 // mills between calls to flush() - to write data to the card
 uint32_t syncTime = 0; // time of last sync()
 
-#define ECHO_TO_SERIAL   0// echo data to serial port
+#define ECHO_TO_SERIAL   0
+// echo data to serial port
 #define WAIT_TO_START    0 // Wait for serial input in setup()
 
 Adafruit_LIS3DH lis = Adafruit_LIS3DH();
@@ -34,6 +35,9 @@ sensors_event_t event;
 // for Zero, output on USB Serial console, remove line below if using programming port to program the Zero!
    #define Serial SerialUSB
 #endif
+
+
+
 
 RTC_DS1307 RTC; // define the Real Time Clock object
 
@@ -194,14 +198,14 @@ void logData()
       //logfile.print(", ");
       //logfile.print(event.acceleration.y);
       //logfile.print(", ");
-      logfile.print(event.acceleration.z);
+      logfile.print(event.acceleration.x);
       logfile.print(", ");
     #if ECHO_TO_SERIAL
       //Serial.print(event.acceleration.x);
       //Serial.print(", ");
       //Serial.print(event.acceleration.y);
       //Serial.print(", ");
-      Serial.print(event.acceleration.z);
+      Serial.print(event.acceleration.x);
       Serial.print(", ");
     #endif //ECHO_TO_SERIAL
 
