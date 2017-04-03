@@ -13,12 +13,19 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTabbedPane;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import model.Status;
 import javax.swing.UIManager;
 import javax.swing.UIManager.*;
+import javax.swing.ImageIcon;
+import java.awt.GridLayout;
 
 public class MPB_GUI extends JFrame{
     
@@ -86,18 +93,27 @@ public class MPB_GUI extends JFrame{
                 }
             }
         });
+      //Add listener to track change of current tab
+        simPanel.comboBox.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+            	System.out.println("Option Selected: " + simPanel.checkButtons());
+            }	
+        });
         
     }
     
     private void initSimPanel(){
     	simPanel = new SimPanel();
-    	simPanel.setBackground(SystemColor.control);
+    	simPanel.setBackground(SystemColor.controlShadow);
     	tabbedPane.addTab("Simultaneous", null, simPanel, null);
     }
     
     private void initIndependentPanel(){
-    	independentPanel = new IndependentPanel();
-        independentPanel.setBackground(SystemColor.control);
+    	independentPanel = new IndependentPanel(false);
+    	GridLayout gridLayout = (GridLayout) independentPanel.getLayout();
+    	independentPanel.setOpaque(true);
+        independentPanel.setBackground(SystemColor.controlShadow);
         tabbedPane.addTab("Independent", null, independentPanel, null);
     }
     

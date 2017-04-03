@@ -6,18 +6,21 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+import javax.swing.JComboBox;
 
 public class SimPanel extends JPanel {
 	
 	public ArrayList<JTextField> simPayloadStatus;
-    public ArrayList<JRadioButton> functionBtn;
+    //public ArrayList<JRadioButton> functionBtn;
     public ButtonGroup simBtnGroup = new ButtonGroup();
+    public JComboBox comboBox;
     public JButton btnSend;
 	/**
 	 * Create the panel.
@@ -48,13 +51,30 @@ public class SimPanel extends JPanel {
 
         JLabel label = new JLabel("");
         add(label);
-
+        
         JLabel label_1 = new JLabel("");
         add(label_1);
 
         JLabel label_2 = new JLabel("");
         add(label_2);
+        JLabel label_4 = new JLabel("");
+        add(label_4);
+                
+        comboBox = new JComboBox();
+        add(comboBox);
+        comboBox.setFont(new Font("Tahoma", Font.BOLD, 16));
+        comboBox.setModel( new DefaultComboBoxModel<Object>(new String[] { "Option 1", "Option 2", "Option 3", "Option 4", "Option 5","Option 6"}));
+        add(comboBox);
 
+        JLabel label_5 = new JLabel("");
+        add(label_5);
+
+        JLabel label_6 = new JLabel("");
+        add(label_6);
+
+        JLabel label_7 = new JLabel("");
+        add(label_7);
+        /*
         functionBtn = new ArrayList<JRadioButton>(); 
 
         functionBtn.add(new JRadioButton("Simultaneous Function 1"));
@@ -98,37 +118,34 @@ public class SimPanel extends JPanel {
         functionBtn.get(5).setBorderPainted(true);
         functionBtn.get(5).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         add(functionBtn.get(5));
-
-        JLabel label_3 = new JLabel("");
-        add(label_3);
-
-        JLabel label_4 = new JLabel("");
-        add(label_4);
-
-        JLabel label_5 = new JLabel("");
-        add(label_5);
-
-        JLabel label_6 = new JLabel("");
-        add(label_6);
+         */
+        
+        JLabel label_8 = new JLabel("");
+        add(label_8);
+        
+        JLabel label_9 = new JLabel("");
+        add(label_9);
 
         btnSend = new JButton("Send Command");
 
         btnSend.setFont(new Font("Tahoma", Font.BOLD, 16));
         add(btnSend);
-
-        JLabel label_7 = new JLabel("");
-        add(label_7);
+        
+        JLabel label_10 = new JLabel("");
+        add(label_10);
 	}
 	
     //Checks and returns the selected JRadioButton
     public int checkButtons(){
-        if(functionBtn.get(0).isSelected()) return 1;
+    	return comboBox.getSelectedIndex() + 1;
+        /*if(functionBtn.get(0).isSelected()) return 1;
         if(functionBtn.get(1).isSelected()) return 2;
         if(functionBtn.get(2).isSelected()) return 3;
         if(functionBtn.get(3).isSelected()) return 4;
         if(functionBtn.get(4).isSelected()) return 5;
         if(functionBtn.get(5).isSelected()) return 6;
-        return 0;	
+        */
+        //return 0;	
     }
     
 
