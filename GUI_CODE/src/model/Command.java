@@ -48,13 +48,15 @@ public class Command {
                     dataPacket[i+1] = command;
             }
     }
-    public void independentInputUpdate(byte control, byte flag, boolean[] enable ,byte[] command){
+    public void independentInputUpdate(byte control, byte flag, boolean[] enable){
         dataPacket[1] = control;
         for(int i = 2; i < 8; i = i + 2){
                 dataPacket[i] = (byte)(0x10 | (flag & 0x0F));
-                dataPacket[i+1] = command[i/2 - 1];
         }
-}
+        for(int i = 0; i < 3; i++){
+        	if(enable[i]) dataPacket[2*i + 3] = DataBuffer.readBuffer[2*i + 3];
+        }
+    }
 
     public void setCommandData(){
             mode =	   (dataPacket[0] & 0xF0) >> 4;

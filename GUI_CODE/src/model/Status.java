@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.awt.Color;
+
 public class Status {
     public static boolean updated;
     public static int mode;
@@ -14,6 +16,12 @@ public class Status {
     public static byte command;
     public static boolean transmit;
     public static boolean commLink;
+    
+    public static Color red = new Color(180,100,100);
+    public static Color green = new Color(50,225,100);
+    public static Color skyblue = new Color(100,150,180);
+    public static Color lightYellow = new Color(200,200,100);
+    public static Color darkGray = new Color(169,169,169);
 
     public static void initialize(){
         updated = false;

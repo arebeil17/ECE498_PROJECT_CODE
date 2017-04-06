@@ -24,4 +24,9 @@ public class DataBuffer {
         }
         return false;
     }
+    
+    public static byte[] getCommands(){
+    	byte [] commands = {readBuffer[3],readBuffer[5],readBuffer[6]};
+		return commands;
+    }
 }

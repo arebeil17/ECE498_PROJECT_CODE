@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+
+import model.Status;
+
 import javax.swing.JComboBox;
 
 public class SimPanel extends JPanel {
@@ -22,10 +25,12 @@ public class SimPanel extends JPanel {
     public ButtonGroup simBtnGroup = new ButtonGroup();
     public JComboBox comboBox;
     public JButton btnSend;
+    public JButton btnAbort;
+    public JTextField textField;
 	/**
 	 * Create the panel.
 	 */
-	public SimPanel() {
+	public SimPanel(boolean debug) {
 		setBackground(new Color(255, 255, 255));
         setLayout(new GridLayout(0, 3, 0, 0));
         
@@ -74,65 +79,48 @@ public class SimPanel extends JPanel {
 
         JLabel label_7 = new JLabel("");
         add(label_7);
-        /*
-        functionBtn = new ArrayList<JRadioButton>(); 
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 1"));
-        simBtnGroup.add(functionBtn.get(0));
-        functionBtn.get(0).setBorderPainted(true);
-        functionBtn.get(0).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        functionBtn.get(0).setFont(new Font("Tahoma", Font.BOLD, 12));
-        add(functionBtn.get(0));
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 2"));
-        simBtnGroup.add(functionBtn.get(1));
-        functionBtn.get(1).setFont(new Font("Tahoma", Font.BOLD, 12));
-        functionBtn.get(1).setBorderPainted(true);
-        functionBtn.get(1).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        add(functionBtn.get(1));
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 3"));
-        simBtnGroup.add(functionBtn.get(2));
-        functionBtn.get(2).setFont(new Font("Tahoma", Font.BOLD, 12));
-        functionBtn.get(2).setBorderPainted(true);
-        functionBtn.get(2).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        add(functionBtn.get(2));
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 4"));
-        simBtnGroup.add(functionBtn.get(3));
-        functionBtn.get(3).setFont(new Font("Tahoma", Font.BOLD, 12));
-        functionBtn.get(3).setBorderPainted(true);
-        functionBtn.get(3).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        add(functionBtn.get(3));
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 5"));
-        simBtnGroup.add(functionBtn.get(4));
-        functionBtn.get(4).setFont(new Font("Tahoma", Font.BOLD, 12));
-        functionBtn.get(4).setBorderPainted(true);
-        functionBtn.get(4).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        add(functionBtn.get(4));
-
-        functionBtn.add(new JRadioButton("Simultaneous Function 6"));
-        simBtnGroup.add(functionBtn.get(5));
-        functionBtn.get(5).setFont(new Font("Tahoma", Font.BOLD, 12));
-        functionBtn.get(5).setBorderPainted(true);
-        functionBtn.get(5).setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-        add(functionBtn.get(5));
-         */
         
         JLabel label_8 = new JLabel("");
         add(label_8);
         
         JLabel label_9 = new JLabel("");
         add(label_9);
+        
+        if(debug){
+	        textField = new JTextField();
+	        textField.setEnabled(false);
+	        textField.setEditable(false);
+	        add(textField);
+	        textField.setColumns(10);
+        }else{
+        	JLabel label_10 = new JLabel("");
+            add(label_10);
+        }
+        
+        JLabel label_11 = new JLabel("");
+        add(label_11);
+        
+        JLabel label_12 = new JLabel("");
+        add(label_12);
 
         btnSend = new JButton("Send Command");
-
         btnSend.setFont(new Font("Tahoma", Font.BOLD, 16));
+        btnSend.setBackground(Status.skyblue);
         add(btnSend);
         
-        JLabel label_10 = new JLabel("");
-        add(label_10);
+        JLabel label_13 = new JLabel("");
+        add(label_13);
+        
+        JLabel label_14 = new JLabel("");
+        add(label_14);
+        
+        btnAbort = new JButton("Abort");
+        btnAbort.setFont(new Font("Tahoma", Font.BOLD, 16));
+        btnAbort.setBackground(Status.lightYellow);
+        add(btnAbort);
+        
+        JLabel label_15 = new JLabel("");
+        add(label_15);
 	}
 	
     //Checks and returns the selected JRadioButton

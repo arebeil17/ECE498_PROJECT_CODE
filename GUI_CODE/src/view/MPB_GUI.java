@@ -104,7 +104,7 @@ public class MPB_GUI extends JFrame{
     }
     
     private void initSimPanel(){
-    	simPanel = new SimPanel();
+    	simPanel = new SimPanel(false);
     	simPanel.setBackground(SystemColor.controlShadow);
     	tabbedPane.addTab("Simultaneous", null, simPanel, null);
     }

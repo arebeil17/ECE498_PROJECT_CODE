@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+
+import model.Status;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
@@ -31,15 +34,8 @@ public class IndependentPanel extends JPanel {
     private boolean enable1 = false;
     private boolean enable2 = false;
     private boolean enable3 = false;
-    Color red = new Color(180,100,100);
-	Color green = new Color(50,225,100);
-	//Color skyblue = new Color(135,180,225);
-	Color skyblue = new Color(100,150,180);
-	//Color lightYellow = new Color(255,255,153);
-	Color lightYellow = new Color(200,200,100);
-	//169,169,169
-	Color darkGray = new Color(169,169,169);
-	private JTextField textField;
+    
+	public JTextField textField;
 
     /**
      * Create the panel.
@@ -141,7 +137,7 @@ public class IndependentPanel extends JPanel {
         	}
         });
         btnSend.setFont(new Font("Tahoma", Font.BOLD, 16));
-        btnSend.setBackground(skyblue);
+        btnSend.setBackground(Status.skyblue);
         add(btnSend);
         
         JLabel lblBlank_12 = new JLabel("");
@@ -153,7 +149,7 @@ public class IndependentPanel extends JPanel {
         JButton btnAbort = new JButton("Abort");
         btnAbort.setOpaque(false);
         btnAbort.setFont(new Font("Tahoma", Font.BOLD, 16));
-        btnAbort.setBackground(lightYellow);
+        btnAbort.setBackground(Status.lightYellow);
         add(btnAbort);
         
         JLabel lblBlank_14 = new JLabel("");
@@ -207,13 +203,13 @@ public class IndependentPanel extends JPanel {
 	                    indePayloadStatus.get(0).setEnabled(true);
 	                    optionBox.get(0).setEnabled(true);
 	                    optionSelected = optionBox.get(0).getSelectedIndex();
-	                    enableBtn.get(0).setBackground(green);
+	                    enableBtn.get(0).setBackground(Status.green);
                     }else{
                     	enableBtn.get(0).setText("Disabled");
                     	indePayloadStatus.get(0).setEnabled(false);
 	                    optionBox.get(0).setEnabled(false);
 	                    optionSelected = optionBox.get(0).getSelectedIndex();
-	                    enableBtn.get(0).setBackground(red);	
+	                    enableBtn.get(0).setBackground(Status.red);	
 	                }
                     break;
             case 2:
@@ -222,13 +218,13 @@ public class IndependentPanel extends JPanel {
 	                    indePayloadStatus.get(1).setEnabled(true);
 	                    optionBox.get(1).setEnabled(true);
 	                    optionSelected = optionBox.get(1).getSelectedIndex();
-	                    enableBtn.get(1).setBackground(green);
+	                    enableBtn.get(1).setBackground(Status.green);
 	                }else{
 	                	enableBtn.get(1).setText("Disabled");
 	                	indePayloadStatus.get(1).setEnabled(false);
 	                    optionBox.get(1).setEnabled(false);
 	                    optionSelected = optionBox.get(1).getSelectedIndex();
-	                    enableBtn.get(1).setBackground(red);	
+	                    enableBtn.get(1).setBackground(Status.red);	
 	                }
                     break;
             case 3:
@@ -237,13 +233,13 @@ public class IndependentPanel extends JPanel {
 	                    indePayloadStatus.get(2).setEnabled(true);
 	                    optionBox.get(2).setEnabled(true);
 	                    optionSelected = optionBox.get(2).getSelectedIndex();
-	                    enableBtn.get(2).setBackground(green);
+	                    enableBtn.get(2).setBackground(Status.green);
 	                }else{
 	                	enableBtn.get(2).setText("Disabled");
 	                	indePayloadStatus.get(2).setEnabled(false);
 	                    optionBox.get(2).setEnabled(false);
 	                    optionSelected = optionBox.get(2).getSelectedIndex();
-	                    enableBtn.get(2).setBackground(red);	
+	                    enableBtn.get(2).setBackground(Status.red);	
 	                }
                     break;
              default:
@@ -257,11 +253,21 @@ public class IndependentPanel extends JPanel {
                  optionBox.get(1).setEnabled(false);
                  optionBox.get(2).setEnabled(false);
                  optionSelected = optionBox.get(0).getSelectedIndex();
-                 enableBtn.get(0).setBackground(red);
-                 enableBtn.get(1).setBackground(red);
-                 enableBtn.get(2).setBackground(red);
+                 enableBtn.get(0).setBackground(Status.red);
+                 enableBtn.get(1).setBackground(Status.red);
+                 enableBtn.get(2).setBackground(Status.red);
             	 break;
         }
+    }
+    
+    public boolean[] checkEnabled(){
+    	boolean[] enabled = {false, false, false};
+		
+    	enabled[0] = enable3;
+    	enabled[1] = enable2;
+    	enabled[2] = enable1;
+    	
+    	return enabled;
     }
 
 }
