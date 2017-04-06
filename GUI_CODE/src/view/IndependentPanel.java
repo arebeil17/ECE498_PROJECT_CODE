@@ -33,8 +33,10 @@ public class IndependentPanel extends JPanel {
     private boolean enable3 = false;
     Color red = new Color(180,100,100);
 	Color green = new Color(50,225,100);
-	Color skyblue = new Color(135,180,225);
-	Color lightYellow = new Color(255,255,153);
+	//Color skyblue = new Color(135,180,225);
+	Color skyblue = new Color(100,150,180);
+	//Color lightYellow = new Color(255,255,153);
+	Color lightYellow = new Color(200,200,100);
 	//169,169,169
 	Color darkGray = new Color(169,169,169);
 	private JTextField textField;

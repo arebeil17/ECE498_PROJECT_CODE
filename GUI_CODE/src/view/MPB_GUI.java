@@ -73,7 +73,7 @@ public class MPB_GUI extends JFrame{
         contentPane.setLayout(new BorderLayout(0, 0));
 
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        tabbedPane.setBackground(SystemColor.inactiveCaption);
+        tabbedPane.setBackground(SystemColor.activeCaption);
         tabbedPane.setFont(new Font("Tahoma", Font.BOLD, 18));
         contentPane.add(tabbedPane);
 

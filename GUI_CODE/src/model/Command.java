@@ -48,6 +48,13 @@ public class Command {
                     dataPacket[i+1] = command;
             }
     }
+    public void independentInputUpdate(byte control, byte flag, boolean[] enable ,byte[] command){
+        dataPacket[1] = control;
+        for(int i = 2; i < 8; i = i + 2){
+                dataPacket[i] = (byte)(0x10 | (flag & 0x0F));
+                dataPacket[i+1] = command[i/2 - 1];
+        }
+}
 
     public void setCommandData(){
             mode =	   (dataPacket[0] & 0xF0) >> 4;
