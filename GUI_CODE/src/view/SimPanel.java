@@ -125,15 +125,10 @@ public class SimPanel extends JPanel {
 	
     //Checks and returns the selected JRadioButton
     public int checkButtons(){
+    	simPayloadStatus.get(0).setText("Payload 1:   "+ Status.module.get(0).idString());
+    	simPayloadStatus.get(1).setText("Payload 2:   "+ Status.module.get(1).idString());
+    	simPayloadStatus.get(2).setText("Payload 3:   "+ Status.module.get(2).idString());
     	return comboBox.getSelectedIndex() + 1;
-        /*if(functionBtn.get(0).isSelected()) return 1;
-        if(functionBtn.get(1).isSelected()) return 2;
-        if(functionBtn.get(2).isSelected()) return 3;
-        if(functionBtn.get(3).isSelected()) return 4;
-        if(functionBtn.get(4).isSelected()) return 5;
-        if(functionBtn.get(5).isSelected()) return 6;
-        */
-        //return 0;	
     }
     
 

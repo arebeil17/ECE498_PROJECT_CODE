@@ -14,8 +14,7 @@ public class DataBuffer {
         readBuffer = new byte[size];
     }
     
-    public static boolean read(int size, byte[] inputBuffer)
-    {
+    public static boolean read(int size, byte[] inputBuffer){
         validBytes = size;
         if(size >= 8){
             for(int i = 0; i < size; i++)

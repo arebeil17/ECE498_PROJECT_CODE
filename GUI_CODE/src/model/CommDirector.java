@@ -112,6 +112,7 @@ public class CommDirector {
             System.out.println("Reply Confirmed...");
             if(DataBuffer.readBuffer[0] != START_BYTE) return false;
             reply.setDataPacket(DataBuffer.readBuffer);
+            Status.updateAll(DataBuffer.readBuffer); //Update all tracked status data
             return true;
         }
         return false;

@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
+import model.Command;
 import model.Status;
 
 import java.awt.event.ActionListener;
@@ -258,6 +259,23 @@ public class IndependentPanel extends JPanel {
                  enableBtn.get(2).setBackground(Status.red);
             	 break;
         }
+        updateStatus();
+    }
+    
+    public void updateStatus(){
+    	 Status.module.get(0).enabled = enable1;
+         Status.module.get(1).enabled = enable2;
+         Status.module.get(2).enabled = enable3;
+         if(enable1) Status.module.get(0).command = optionBox.get(0).getSelectedIndex();
+         else Status.module.get(0).command = Command.NO_COMMAND;
+         if(enable2) Status.module.get(1).command = optionBox.get(1).getSelectedIndex();
+         else Status.module.get(1).command = Command.NO_COMMAND;
+         if(enable3) Status.module.get(2).command = optionBox.get(2).getSelectedIndex();
+         else Status.module.get(2).command = Command.NO_COMMAND;
+         
+        indePayloadStatus.get(0).setText("Payload 1:  "+ Status.module.get(0).idString());
+     	indePayloadStatus.get(1).setText("Payload 2:  "+ Status.module.get(1).idString());
+     	indePayloadStatus.get(2).setText("Payload 3:  "+ Status.module.get(2).idString());
     }
     
     public boolean[] checkEnabled(){

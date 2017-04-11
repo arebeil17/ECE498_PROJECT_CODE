@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import model.DataBuffer;
 import model.Status;
 import javax.swing.UIManager;
 import javax.swing.UIManager.*;
@@ -39,6 +40,8 @@ public class MPB_GUI extends JFrame{
      * Launch the application.
      */
     public static void main(String[] args) {
+    	Status.initialize();
+        DataBuffer.initialize(64);
         try {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -90,9 +93,16 @@ public class MPB_GUI extends JFrame{
                     System.out.println("Selected tab #: " + pane.getSelectedIndex());
                     tabSelected = pane.getSelectedIndex();
                     Status.mode = tabSelected;
+                    simPanel.simPayloadStatus.get(0).setText("Payload 1:  "+ Status.module.get(0).idString());
+                    simPanel.simPayloadStatus.get(1).setText("Payload 2:  "+ Status.module.get(1).idString());
+                    simPanel.simPayloadStatus.get(2).setText("Payload 3:  "+ Status.module.get(2).idString());
+                    independentPanel.indePayloadStatus.get(0).setText("Payload 1:  "+ Status.module.get(0).idString());
+                    independentPanel.indePayloadStatus.get(1).setText("Payload 2:  "+ Status.module.get(1).idString());
+                    independentPanel.indePayloadStatus.get(2).setText("Payload 3:  "+ Status.module.get(2).idString());
                 }
             }
         });
+        
       //Add listener to track change of current tab
         simPanel.comboBox.addMouseListener(new MouseAdapter() {
             @Override
