@@ -37,13 +37,13 @@ public class MPB_Driver {
     boolean ready = false;
     
     public static void main(String[] args )throws InterruptedException{
-
+    	Status.initialize();
+        DataBuffer.initialize(64);
         boolean running = true;
         MPB_GUI mpb_GUI = new MPB_GUI();
         mpb_GUI.setVisible(true);
         CommDirector commDirector = new CommDirector();
-        Status.initialize();
-        DataBuffer.initialize(64);
+   
 
         mpb_GUI.simPanel.btnSend.addMouseListener(new MouseAdapter() {
                 @Override
@@ -54,13 +54,10 @@ public class MPB_Driver {
                         Status.transmit = true;
                 }
         });
-          mpb_GUI.independentPanel.btnSend.addMouseListener(new MouseAdapter() {
+        mpb_GUI.independentPanel.btnSend.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent arg0) {
-                    Status.command = (byte) mpb_GUI.independentPanel.optionBox.get(Status.select).getSelectedIndex();
-                    commDirector.command.updateDataPacket(Status.getControlData(), 
-                                                          Status.getConfigData(), 
-                                                          Status.getCommandData());
+                    commDirector.command.independentInputUpdate();
                     Status.transmit = true;
                 }
         });
