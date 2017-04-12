@@ -72,20 +72,23 @@ public class Command {
         dataPacket[1] = (byte) ((Status.mode << 4) | (Status.getEnabledParameter()));
         //---------------------------------------------------------------------------
         //Update Module 3 command data packet
-        dataPacket[2] = (byte) ((Status.mode << 4) | abort.get(2));
+        dataPacket[2] = (byte) ((Status.mode << 4) | Status.module.get(2).abort);
         if(Status.module.get(2).enabled) dataPacket[3] = Status.module.get(2).command.byteValue();
         else dataPacket[3] = (byte) NO_COMMAND;
        //---------------------------------------------------------------------------
         //Update Module 2 command data packet
-        dataPacket[4] = (byte) ((Status.mode << 4) | abort.get(1));
+        dataPacket[4] = (byte) ((Status.mode << 4) | Status.module.get(1).abort);
         if(Status.module.get(1).enabled) dataPacket[5] = Status.module.get(1).command.byteValue();
         else dataPacket[5] = (byte) NO_COMMAND;
        //---------------------------------------------------------------------------
         //Update Module 1 command data packet
-        dataPacket[6] = (byte) ((Status.mode << 4) | abort.get(0));
+        dataPacket[6] = (byte) ((Status.mode << 4) | Status.module.get(0).abort);
         if(Status.module.get(0).enabled) dataPacket[7] = Status.module.get(0).command.byteValue();
         else dataPacket[7] = (byte) NO_COMMAND;
-
+        
+        Status.module.get(0).abort = 0;
+        Status.module.get(1).abort = 0;
+        Status.module.get(2).abort = 0;
     }
 
     public void setCommandData(){

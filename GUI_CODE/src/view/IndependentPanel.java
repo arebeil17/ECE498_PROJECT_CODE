@@ -197,8 +197,6 @@ public class IndependentPanel extends JPanel {
     }
 	
     public void updateEnabledSelection(){
-    	
-    	
         switch (selectedSlot){
             case 1:
                     enable1 = !enable1;
@@ -276,6 +274,9 @@ public class IndependentPanel extends JPanel {
             if(enable3) Status.module.get(2).command = optionBox.get(2).getSelectedIndex() + 1;
             else Status.module.get(2).command = Command.NO_COMMAND;
          }else{
+            if(enable1) Status.module.get(0).abort = 8;
+            if(enable2) Status.module.get(1).abort = 8;
+            if(enable3) Status.module.get(2).abort = 8;
             Status.module.get(0).command = Command.NO_COMMAND;
             Status.module.get(1).command = Command.NO_COMMAND;
             Status.module.get(2).command = Command.NO_COMMAND;

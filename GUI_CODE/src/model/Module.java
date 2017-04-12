@@ -4,7 +4,7 @@ public class Module {
 	
 	public boolean active;
 	public boolean enabled;
-        public boolean abort;
+        public Integer abort;
 	public Integer state;
 	public Integer mode;
 	public Integer config;
@@ -14,7 +14,7 @@ public class Module {
 	public Module(){
 		active = false;
 		enabled = false;
-                abort = false;
+                abort = 0;
 		state = new Integer(0);
 		mode = new Integer(0);
 		config = new Integer(Status.NO_MODULE);
