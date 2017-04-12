@@ -30,11 +30,13 @@ public class IndependentPanel extends JPanel {
     public ArrayList<JComboBox> optionBox;
     public final ButtonGroup enableGroup = new ButtonGroup();
     public JButton btnSend;
+    public JButton btnAbort; 
     public int selectedSlot = 0;
     public int optionSelected = 1;
     private boolean enable1 = false;
     private boolean enable2 = false;
     private boolean enable3 = false;
+    private boolean abort = false;
     
 	public JTextField textField;
 
@@ -147,7 +149,7 @@ public class IndependentPanel extends JPanel {
         JLabel lblBlank_13 = new JLabel("");
         add(lblBlank_13);
         
-        JButton btnAbort = new JButton("Abort");
+        btnAbort = new JButton("Abort");
         btnAbort.setOpaque(false);
         btnAbort.setFont(new Font("Tahoma", Font.BOLD, 16));
         btnAbort.setBackground(Status.lightYellow);
@@ -199,7 +201,7 @@ public class IndependentPanel extends JPanel {
     	
         switch (selectedSlot){
             case 1:
-            		enable1 = !enable1;
+                    enable1 = !enable1;
                     if(enable1){enableBtn.get(0).setText("Enabled"); 
 	                    indePayloadStatus.get(0).setEnabled(true);
 	                    optionBox.get(0).setEnabled(true);
@@ -214,7 +216,7 @@ public class IndependentPanel extends JPanel {
 	                }
                     break;
             case 2:
-            		enable2 = !enable2;
+                    enable2 = !enable2;
                     if(enable2){enableBtn.get(1).setText("Enabled"); 
 	                    indePayloadStatus.get(1).setEnabled(true);
 	                    optionBox.get(1).setEnabled(true);
@@ -229,7 +231,7 @@ public class IndependentPanel extends JPanel {
 	                }
                     break;
             case 3:
-            		enable3 = !enable3;
+                    enable3 = !enable3;
                     if(enable3){enableBtn.get(2).setText("Enabled"); 
 	                    indePayloadStatus.get(2).setEnabled(true);
 	                    optionBox.get(2).setEnabled(true);
@@ -259,20 +261,25 @@ public class IndependentPanel extends JPanel {
                  enableBtn.get(2).setBackground(Status.red);
             	 break;
         }
-        updateStatus();
+        updateStatus(false);
     }
     
-    public void updateStatus(){
+    public void updateStatus(boolean abort){
     	 Status.module.get(0).enabled = enable1;
          Status.module.get(1).enabled = enable2;
          Status.module.get(2).enabled = enable3;
-         if(enable1) Status.module.get(0).command = optionBox.get(0).getSelectedIndex();
-         else Status.module.get(0).command = Command.NO_COMMAND;
-         if(enable2) Status.module.get(1).command = optionBox.get(1).getSelectedIndex();
-         else Status.module.get(1).command = Command.NO_COMMAND;
-         if(enable3) Status.module.get(2).command = optionBox.get(2).getSelectedIndex();
-         else Status.module.get(2).command = Command.NO_COMMAND;
-         
+         if(!abort){
+            if(enable1) Status.module.get(0).command = optionBox.get(0).getSelectedIndex() + 1;
+            else Status.module.get(0).command = Command.NO_COMMAND;
+            if(enable2) Status.module.get(1).command = optionBox.get(1).getSelectedIndex() + 1;
+            else Status.module.get(1).command = Command.NO_COMMAND;
+            if(enable3) Status.module.get(2).command = optionBox.get(2).getSelectedIndex() + 1;
+            else Status.module.get(2).command = Command.NO_COMMAND;
+         }else{
+            Status.module.get(0).command = Command.NO_COMMAND;
+            Status.module.get(1).command = Command.NO_COMMAND;
+            Status.module.get(2).command = Command.NO_COMMAND;
+         }
         indePayloadStatus.get(0).setText("Payload 1:  "+ Status.module.get(0).idString());
      	indePayloadStatus.get(1).setText("Payload 2:  "+ Status.module.get(1).idString());
      	indePayloadStatus.get(2).setText("Payload 3:  "+ Status.module.get(2).idString());

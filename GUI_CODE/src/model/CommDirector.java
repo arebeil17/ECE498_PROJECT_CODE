@@ -7,6 +7,7 @@ package model;
 
 import com.pi4j.io.serial.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -89,15 +90,15 @@ public class CommDirector {
         }
     }
 
-    public boolean transmit(){
+    public boolean transmit(){    
         try{
-            System.out.println("Transmitting Data... Sent: "+ (byte) command.dataPacket[1]
-                                                            +", [" +(byte) command.dataPacket[2]
-                                                            +" " +(byte) command.dataPacket[3]
-                                                            +"], [" +(byte) command.dataPacket[4]
-                                                            +" " +(byte) command.dataPacket[5]
-                                                            +"], [" +(byte) command.dataPacket[6]
-                                                            +" " +(byte) command.dataPacket[7] +"]");
+            System.out.println("Transmitting Data... Sent: "+ Integer.toHexString(command.dataPacket[1])
+                                                            +", [" +Integer.toHexString(command.dataPacket[2])
+                                                            +" " +Integer.toHexString(command.dataPacket[3])
+                                                            +"], [" +Integer.toHexString(command.dataPacket[4])
+                                                            +" " +Integer.toHexString(command.dataPacket[5])
+                                                            +"], [" +Integer.toHexString(command.dataPacket[6])
+                                                            +" " +Integer.toHexString(command.dataPacket[7]) +"]");
             serial.write(command.dataPacket);
         }
         catch(IOException ex){

@@ -35,14 +35,14 @@ public class Status {
     }
     //Called every time data is received by CommDirector
     public static boolean updateAll(byte[] readBuffer){
-    	if(readBuffer.length >= 7){
+    	if(readBuffer.length >= 8){
     		masterState = (readBuffer[0] & 0xF0) >> 4;
-    		module.get(0).active = (readBuffer[0] & 0x01) == 1;
-    		module.get(1).active = ((readBuffer[0] & 0x02) >> 1) == 1;
-    		module.get(2).active = ((readBuffer[0] & 0x04) >> 2) == 1;
-    		module.get(0).update(readBuffer[5], readBuffer[6]);
-    		module.get(1).update(readBuffer[3], readBuffer[4]);
-    		module.get(2).update(readBuffer[1], readBuffer[2]);
+    		module.get(0).active = (readBuffer[1] & 0x01) == 1;
+    		module.get(1).active = ((readBuffer[1] & 0x02) >> 1) == 1;
+    		module.get(2).active = ((readBuffer[1] & 0x04) >> 2) == 1;
+    		module.get(0).update(readBuffer[6], readBuffer[7]);
+    		module.get(1).update(readBuffer[4], readBuffer[5]);
+    		module.get(2).update(readBuffer[2], readBuffer[3]);
     		return true;
     	}
     	return false;

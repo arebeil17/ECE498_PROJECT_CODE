@@ -30,7 +30,10 @@ public class Command {
             update = false;
             priority =  NORMAL;
             dataPacket[0] = START_BYTE;
-            abort = new ArrayList<Integer>(3); 
+            abort = new ArrayList<Integer>(3);
+            abort.add(new Integer(0));
+            abort.add(new Integer(0));
+            abort.add(new Integer(0));
             for(int i = 1; i < 8; i++) dataPacket[i] = 0;
     }
 
@@ -50,10 +53,18 @@ public class Command {
     public void simultInputUpdate(byte control, byte flag, byte command){
             dataPacket[1] = control;
             for(int i = 2; i < 8; i = i + 2){
-                    dataPacket[i] = (byte)(0x10 | (flag & 0x0F));
+                    dataPacket[i] = (byte)(0x17);
                     dataPacket[i+1] = command;
             }
             Status.simCommandUpdate(command);
+    }
+    public void simultaneousAbort(){
+            dataPacket[1] = 0x17;
+            for(int i = 2; i < 8; i = i + 2){
+                    dataPacket[i] = (byte)(0x18);
+                    dataPacket[i+1] = (byte) Command.NO_COMMAND;
+            }
+            Status.simCommandUpdate((byte) Command.NO_COMMAND);
     }
     public void independentInputUpdate()
     {

@@ -52,6 +52,7 @@ public class MPB_GUI extends JFrame{
         } catch (Exception e) {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
+        
             EventQueue.invokeLater(new Runnable() {
                     public void run() {
                             try {
@@ -90,7 +91,10 @@ public class MPB_GUI extends JFrame{
             public void stateChanged(ChangeEvent e) {
                 if (e.getSource() instanceof JTabbedPane) {
                     JTabbedPane pane = (JTabbedPane) e.getSource();
-                    System.out.println("Selected tab #: " + pane.getSelectedIndex());
+                    System.out.println("Selected tab #: " + pane.getSelectedIndex()
+                                      +"\nEnable 1: " + Status.module.get(0).enabled
+                                      +"\nEnable 2: " + Status.module.get(1).enabled
+                                      +"\nEnable 3: " + Status.module.get(2).enabled);
                     tabSelected = pane.getSelectedIndex();
                     Status.mode = tabSelected;
                     simPanel.simPayloadStatus.get(0).setText("Payload 1:  "+ Status.module.get(0).idString());

@@ -4,6 +4,7 @@ public class Module {
 	
 	public boolean active;
 	public boolean enabled;
+        public boolean abort;
 	public Integer state;
 	public Integer mode;
 	public Integer config;
@@ -13,6 +14,7 @@ public class Module {
 	public Module(){
 		active = false;
 		enabled = false;
+                abort = false;
 		state = new Integer(0);
 		mode = new Integer(0);
 		config = new Integer(Status.NO_MODULE);
@@ -22,7 +24,7 @@ public class Module {
 	
 	public void update(byte status, byte command){
 		state = status & (0xF0) >> 4;
-		config = status & (0x0F);
+		config = status & (0x07);
 		currentCommand = (int) command;
 	}
 	

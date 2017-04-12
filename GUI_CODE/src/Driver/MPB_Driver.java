@@ -20,6 +20,7 @@ import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import javax.swing.UIManager;
 import model.CommDirector;
 import model.DataBuffer;
 import model.Status;
@@ -37,26 +38,51 @@ public class MPB_Driver {
     boolean ready = false;
     
     public static void main(String[] args )throws InterruptedException{
-    	Status.initialize();
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            // If Nimbus is not available, you can set the GUI to another look and feel.
+        }
+        Status.initialize();
         DataBuffer.initialize(64);
         boolean running = true;
         MPB_GUI mpb_GUI = new MPB_GUI();
         mpb_GUI.setVisible(true);
         CommDirector commDirector = new CommDirector();
-   
 
         mpb_GUI.simPanel.btnSend.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent arg0) {
-                        commDirector.command.simultInputUpdate((byte) 0x11,
+                        commDirector.command.simultInputUpdate((byte) 0x17,
                                                                (byte) 0x00,
                                                                (byte) mpb_GUI.simPanel.checkButtons());
+                        Status.transmit = true;
+                }
+        });
+        mpb_GUI.simPanel.btnAbort.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent arg0) {
+                        commDirector.command.simultaneousAbort();
                         Status.transmit = true;
                 }
         });
         mpb_GUI.independentPanel.btnSend.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent arg0) {
+                    mpb_GUI.independentPanel.updateStatus(false);
+                    commDirector.command.independentInputUpdate();
+                    Status.transmit = true;
+                }
+        });
+        mpb_GUI.independentPanel.btnAbort.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent arg0) {
+                    mpb_GUI.independentPanel.updateStatus(true);
                     commDirector.command.independentInputUpdate();
                     Status.transmit = true;
                 }
