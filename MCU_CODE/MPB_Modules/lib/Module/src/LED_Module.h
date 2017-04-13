@@ -12,20 +12,67 @@
 
 /**************************************************************************************************/
 #include <Module.h>
+#include <Arduino.h>
+#include <Adafruit_NeoPixel.h>
+#include <Keywords.h>
 /**************************************************************************************************/
 
 using namespace std;
 
-//LED_Module is a Subclass of the Module Superclass
-class LED_Module: public Module {
-    private:
+#define LED_STRIP_PIN 22
+#define NUM_PIXELS 60
+#define LOW_LEVEL 52
+#define HIGH_LEVEL 255
 
+//LED_Module is a Subclass of the Module Superclass
+class LED_Module{
+    private:
+      bool forward = true;
+      unsigned int clusterSize = 37;
+      unsigned int fadeFactor = 7;
+      int cycle2 = 255;
+      int cycle1 = 1;
+      unsigned int ledPos = 0;
+      uint8_t WheelPos = 0;
+      uint8_t colorSelect = 0;
     public:
-      Adafruit_NeoPixel strip;
+      //For breathe control
+      uint8_t brightness;
+      uint32_t breatheColor;
+      uint16_t delta;
+      bool ascend;
+      uint16_t switchCount;
+      uint16_t holdCount;
+      //For flash control
+      bool hold_on;
+      uint16_t flashStep;
+      uint16_t flashCount;
+      uint32_t flashColor;
+      //For sweep control
+      uint32_t sweepColor;
+      uint32_t baseColor;
+      uint8_t moduleType;
+      uint16_t standard;
+      uint16_t maxSteps;
+      Adafruit_NeoPixel strip2;
 
       LED_Module();
 
-      bool initStrip(unsigned int slot);
+      bool initStrip(Adafruit_NeoPixel* strip);
+
+      bool simultaneousFunction(uint16_t command, uint16_t step, Adafruit_NeoPixel* strip);
+
+      void breathe(uint16_t step, bool hold, uint8_t low, uint8_t high, uint8_t duration_factor
+                  , Adafruit_NeoPixel* strip);
+      void flash(uint16_t step, uint8_t numFlashes, uint8_t rate, Adafruit_NeoPixel* strip);
+      void waitFunction(uint16_t step, Adafruit_NeoPixel* strip);
+      uint32_t Wheel(byte WheelPos, Adafruit_NeoPixel* strip);
+      void colorWipe(uint32_t c, bool show, Adafruit_NeoPixel* strip);
+      void NightRider(Adafruit_NeoPixel* strip);
+      void Sweep(uint32_t c, Adafruit_NeoPixel* strip);
+      void moveCluster(int start, bool direction, Adafruit_NeoPixel* strip, bool nightRider);
+      uint32_t getColorCode(uint8_t color);
+
 };
 
 #endif // LED_MODULE_H

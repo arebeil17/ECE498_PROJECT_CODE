@@ -16,10 +16,10 @@
 #define ROOT_PIN 23
 
 //Module current state definitions
-#define IDLE 0
-#define DEFAULT 1
-#define EXE_SYNCH 2
-#define EXE_ASYNCH 3
+#define INITIAL 0
+#define WAIT 1
+#define EXECUTE 2
+#define ABORT 0xFF
 
 //Module Type definitions
 #define NO_MODULE 0
@@ -37,22 +37,29 @@
 #define CRITICAL 3
 #define NONE 0
 
-//LED Module definitions
-#define LED_SLOT1_PIN 17
-#define LED_SLOT2_PIN 18
-#define LED_SLOT3_PIN 19
+//Command definitions
+#define NO_COMMAND 0x00
+#define SIMULT_FUNCTION_1 0x01
+#define SIMULT_FUNCTION_2 0x02
+#define SIMULT_FUNCTION_3 0x03
+#define SIMULT_FUNCTION_4 0x04
+#define SIMULT_FUNCTION_5 0x05
+#define SIMULT_FUNCTION_6 0x06
+#define SIMULT_FUNCTION_7 0x07
 
-//DISPLAY Module definitions
-#define RED_SLOT1_PIN 2
-#define GREEN_SLOT1_PIN 3
-#define BLUE_SLOT1_PIN 4
+#define INDEPENDENT_FUNCTION_1 0x81
+#define INDEPENDENT_FUNCTION_2 0x82
+#define INDEPENDENT_FUNCTION_3 0x83
+#define INDEPENDENT_FUNCTION_4 0x84
+#define INDEPENDENT_FUNCTION_5 0x85
+#define INDEPENDENT_FUNCTION_6 0x86
 
-#define RED_SLOT2_PIN 5
-#define GREEN_SLOT2_PIN 6
-#define BLUE_SLOT2_PIN 7
-
-#define RED_SLOT3_PIN 8
-#define GREEN_SLOT3_PIN 9
-#define BLUE_SLOT3_PIN 10
+#define RED  1
+#define GREEN  2
+#define BLUE  3
+#define WHITE  4
+#define PURPLE  5
+#define CORAL  6
+#define LT_BLUE  7
 
 #endif // KEYWORDS_H

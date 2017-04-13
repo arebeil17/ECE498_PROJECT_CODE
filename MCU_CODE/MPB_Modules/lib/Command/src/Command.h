@@ -46,7 +46,8 @@ class Command {
 			void setDataPacket(unsigned char newPacket[]);
 			//Updates Command class data with data stored in dataPacket buffer
 			void updateCommandData();
-
+			//reset
+			void clear();
 	};
 
 #endif // COMMAND_H

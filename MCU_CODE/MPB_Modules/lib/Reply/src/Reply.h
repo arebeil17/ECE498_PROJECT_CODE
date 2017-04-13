@@ -19,10 +19,6 @@
 //#include "stdafx.h"
 /**************************************************************************************************/
 
-#define EMPTY 0
-#define LED 1
-#define SOUND 2
-
 using namespace std;
 
 class Reply

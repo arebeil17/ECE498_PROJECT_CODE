@@ -24,16 +24,18 @@ using namespace std;
 class CommDirector {
 	private:
 
-
 	public:
     Command command;
     Reply   reply;
 
     CommDirector();
 		//Recieves command from master control module
-    bool recieve();
+    bool receive();
 		//Transmit reply to master control module
     void transmit();
+		//Setup for transmit after command received
+		void stageTransmit(uint8_t state, uint8_t config, uint8_t currentCommand);
+
 };
 
 #endif // COMMDIRECTOR_H

@@ -14,24 +14,41 @@
 //LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 
 /**************************************************************************************************/
+#include <Arduino.h>
 #include <Module.h>
 #include <LCD.h>
 #include <Wire.h>
+#include <String.h>
 #include <LiquidCrystal.h>
+#include <Keywords.h>
 /**************************************************************************************************/
+#define REDLITE 9
+#define GREENLITE 10
+#define BLUELITE 11
 
 using namespace std;
 
 //Display_Module is a Subclass of the Module Superclass
-class Display_Module: public Module {
+class Display_Module {
     private:
-      unsigned int REDLITE;
-      unsigned int GREENLITE;
-      unsigned int BLUELITE;
+
+      uint8_t brightness = 255;
     public:
-      Display_Module(int slot);
+      uint8_t moduleType;
+      uint16_t standard;
+      uint16_t maxSteps;
+
+      Display_Module();
+
+      void initDisplay();
 
       void setBacklight(uint8_t r, uint8_t g, uint8_t b, uint8_t brightness);
+
+      bool simultaneousFunction(uint16_t command, uint16_t step);
+
+      bool rainbow(uint16_t step);
+
+      bool infoColor(uint16_t step, uint8_t color);
 };
 
 #endif // DISPLAY_MODULE_H

@@ -37,11 +37,11 @@ void Command::setDataPacket(unsigned char control, unsigned char command)
 	dataPacket[0] = control;
 	dataPacket[1] = command;
 
-  hiPriority = (control & 0x40);
-	mode = (control & 0x30);
-  abort = (control & 0x08);
-  reset = (control & 0x04);
-  sleep = (control & 0x02);
+  hiPriority = (control & 0x40) >> 6;
+	mode = (control & 0x30) >> 4;
+  abort = (control & 0x08) >> 3;
+  reset = (control & 0x04) >> 2;
+  sleep = (control & 0x02) >> 1;
   repeat = (control & 0x01);
   this->control = control;
 	this->command = command;
@@ -59,4 +59,10 @@ void Command::updateCommandData()
 
   dataPacket[0] = control;
 	dataPacket[1] = command;
+}
+/**************************************************************************************************/
+//reset currently stored command data
+void Command::clear(){
+    control = (control & 0xF0);
+    setDataPacket(control, NO_COMMAND);
 }

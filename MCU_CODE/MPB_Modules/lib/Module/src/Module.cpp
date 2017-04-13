@@ -10,35 +10,20 @@
 /**************************************************************************************************/
 #include "Module.h"
 /**************************************************************************************************/
-
 Module::Module()
 {
-	id = NO_MODULE;
-	state = 0;
-	//Command command;
-	idle = true;
-	mode = 0;
-	config = 0;
 }
-
-/**************************************************************************************************/
-//Initialize module as an LCD Payload specify slot position
-bool Module::initLCD(unsigned int slot){
-	switch(slot){
-		case 1: break;
-		case 2: break;
-		case 3: break;
-		default: return false;
+Module::Module(uint8_t moduleType)
+{
+		switch(moduleType){
+			case LED_MODULE:
+					this->moduleType = moduleType;
+			break;
+			case SOUND_MODULE:
+					this->moduleType = moduleType;
+			break;
+			case LCD_MODULE:
+					this->moduleType = moduleType;
+			break;
 	}
 }
-/**************************************************************************************************/
-//Initialize module as a SOUND Payload specify slot position
-bool Module::initSound(unsigned int slot){
-	switch(slot){
-		case 1: break;
-		case 2: break;
-		case 3: break;
-		default: return false;
-	}
-}
-/**************************************************************************************************/

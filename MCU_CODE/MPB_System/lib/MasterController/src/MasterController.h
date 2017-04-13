@@ -14,7 +14,7 @@
 #include "stdlib.h"
 #include "math.h"
 #include "Command.h"
-#include <Module.h>
+#include <CommDirector.h>
 //#include <Identify.h>
 #include <Keywords.h>
 #include <Timer.h>
@@ -24,17 +24,24 @@ using namespace std;
 
 class MasterController {
 	private:
-		uint8_t state;
+		CommDirector commDirector;
 	public:
-		Timer mainTimer;
-		Timer moduleTimer1;
-		Timer moduleTimer2;
-		Timer moduleTimer3;
-		//Identify id;
-		Module module[NUM_MODULES];
+		uint8_t state;
+		uint8_t activeCount;
+		bool active_Slot1;
+		bool active_Slot2;
+		bool active_Slot3;
+		bool commandReceived;
+		bool echoReady;
+		bool stateResolved;
 
 		MasterController();
-		//Getters and setters for all private members
+
+		void identify_Routine(uint8_t calls);
+		void wait_Routine();
+		void relay_Routine();
+		void echo_Routine(uint8_t calls);
+		void reply_Routine();
 
 };
 

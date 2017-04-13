@@ -12,6 +12,9 @@
 /**************************************************************************************************/
 
 CommDirector::CommDirector(){
+    Serial3.begin(38400);
+    Serial2.begin(38400);
+    Serial1.begin(38400);
 }
 /**************************************************************************************************/
 CommDirector::CommDirector(int activeSlots){
@@ -19,15 +22,14 @@ CommDirector::CommDirector(int activeSlots){
     if(activeSlots >= 3) Serial3.begin(38400);
     if(activeSlots >= 2) Serial2.begin(38400);
     if(activeSlots >= 1) Serial1.begin(38400);
-
 }
 /**************************************************************************************************/
-bool CommDirector::recieve(){
+bool CommDirector::receive(){
   int size = Serial.available();
   unsigned char buffer[size];
 
     if(size >= 8){ //Check if serial data available
-       led.setLED(RECIEVE);
+       led.setLED(RECEIVE);
       //Serial.readBytes(buf, len)
        Serial.readBytes(buffer, size);
        //check that the data packet begins with the correct start byte
@@ -54,8 +56,8 @@ bool CommDirector::transmit(){
     return true;
 }
 /**************************************************************************************************/
-//Recieve data from specified payload slot
-bool CommDirector::subRecieve(int slot){
+//Receive data from specified payload slot
+bool CommDirector::subReceive(int slot){
     int size = 0;
     unsigned char buffer[64];
     switch(slot){
@@ -121,7 +123,40 @@ void CommDirector::startUp(){
 /**************************************************************************************************/
 //Initiliazize bay with current configuration
 void CommDirector::initConfig(int activeSlots, int config1, int config2, int config3){
-
     transmit(); //Transmit configuration to Pi
 }
 /**************************************************************************************************/
+//Transmit to all enabled/selected submodules
+int CommDirector::subTransmitAll(bool slot1, bool slot2, bool slot3){
+    int transmitCnt = 0;
+    //transmit only to active slots
+    if(slot1){
+      //Transmit to submodule only if enabled
+      if(command.slotEnable[0]) subTransmit(1);
+      transmitCnt++;
+    }
+    if(slot2){
+      //Transmit to submodule only if enabled
+      if(command.slotEnable[1]) subTransmit(2);
+      transmitCnt++;
+    }
+    if(slot3){
+      //Transmit to submodule only if enabled
+      if(command.slotEnable[2]) subTransmit(3);
+      transmitCnt++;
+    }
+    return transmitCnt;
+}
+/**************************************************************************************************/
+//Receive data from all active submodules
+bool CommDirector::subReceiveAll(bool slot1, bool slot2, bool slot3){
+    uint8_t receiveCnt = 0;
+    uint8_t active = (slot1) + (slot2) + (slot3);
+    //transmit only to active slots
+    if(slot1){ subReceive(1); receiveCnt++;}
+    if(slot2){ subReceive(2); receiveCnt++;}
+    if(slot3){ subReceive(3); receiveCnt++;}
+
+    if(receiveCnt >= active) return true;
+    return false;
+}

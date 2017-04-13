@@ -43,8 +43,8 @@ void Command::updateCommandData(){
 		hiPriority[1] = subCommand[1].hiPriority;
 		hiPriority[2] = subCommand[2].hiPriority;
 		slotEnable[0] = masterControl & 0x01;
-		slotEnable[1] = (masterControl & 0x02) >> 2;
-		slotEnable[2] = (masterControl & 0x04) >> 3;
+		slotEnable[1] = (masterControl & 0x02) >> 1;
+		slotEnable[2] = (masterControl & 0x04) >> 2;
 }
 // void Command::print()
 // {

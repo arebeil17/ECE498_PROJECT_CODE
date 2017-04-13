@@ -17,6 +17,9 @@
 #include "Command.h"
 #include "Keywords.h"
 #include <Adafruit_NeoPixel.h>
+//#include <Display_Module.h>
+//#include <LED_Module.h>
+//#include <Sound_Module.h>
 /**************************************************************************************************/
 
 using namespace std;
@@ -25,21 +28,15 @@ class Module {
 	private:
 
 	public:
-		int id;
-		int state;
-		Command command;
-		bool idle;
-		int mode;
-		int config;
+		uint8_t moduleType;
+		uint16_t standard;
+		uint16_t maxSteps;
 
 		Module();
 
-		//Initialize module as an LED Strip Payload, specify slot position
-		bool initLedStrip(unsigned int slot);
-		//Initialize module as an LCD Payload, specify slot position
-		bool initLCD(unsigned int slot);
-		//Initialize module as a SOUND Payload, specify slot position
-		bool initSound(unsigned int slot);
+		Module(uint8_t moduleType);
+
+
 };
 
 #endif // MODULE_H

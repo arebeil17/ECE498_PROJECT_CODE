@@ -15,7 +15,7 @@ CommDirector::CommDirector(){
 }
 /**************************************************************************************************/
 //Recieves command from master control module
-bool CommDirector::recieve(){
+bool CommDirector::receive(){
   int size = Serial1.available();
   unsigned char buffer[size];
 
@@ -37,12 +37,12 @@ void CommDirector::transmit(){
     buffer[0] = START_BYTE;
     buffer[1] = reply.dataPacket[0];
     buffer[2] = reply.dataPacket[1];
-    //Serial.print("Buffer: "); Serial.print(buffer[0]);
-    //Serial.print(" "); Serial.print(buffer[1]);
-    //Serial.print(" "); Serial.println(buffer[2]);
     if(!Serial1.write(buffer, 3)){
     }
     Serial1.flush();
 }
-
 /**************************************************************************************************/
+//Setup for transmit after command received
+void CommDirector::stageTransmit(uint8_t state, uint8_t config, uint8_t currentCommand){
+      reply.setReplyData(((state & 0x0F) << 4) | (config & 0x0F), currentCommand);
+}

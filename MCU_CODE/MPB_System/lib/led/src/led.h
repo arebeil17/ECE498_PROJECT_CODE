@@ -4,8 +4,8 @@
 #include <Arduino.h>
 
 #define  SEND  2
-#define  RECIEVE  3
-#define  WAIT  5
+#define  RECEIVE  3
+//#define  WAIT  5
 #define  NO_COMM  1
 
 class Led {

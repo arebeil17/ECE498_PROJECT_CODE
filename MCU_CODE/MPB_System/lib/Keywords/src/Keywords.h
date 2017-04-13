@@ -14,6 +14,16 @@
 
 /**************************************************************************************************/
 #define ROOT_PIN 23
+//Controller State definitions
+#define INITIAL  0x00
+#define IDENTIFY 0x01
+#define WAIT     0x02
+#define RELAY    0x03
+#define ECHO     0x04
+#define REPLY    0x05
+//Controller Standard command definitions
+#define NO_COMMAND 0
+
 
 //Module current state definitions
 #define IDLE 0

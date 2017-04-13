@@ -10,28 +10,53 @@
 /**************************************************************************************************/
 #include "Display_Module.h"
 /**************************************************************************************************/
+Display_Module::Display_Module()
+{
+    moduleType = LCD_MODULE;
+    standard = 3000;
+    maxSteps = 1000;
+}
+/**************************************************************************************************/
+void Display_Module::initDisplay(){
+    pinMode(REDLITE, OUTPUT);
+    pinMode(GREENLITE, OUTPUT);
+    pinMode(BLUELITE, OUTPUT);
+}
+/**************************************************************************************************/
+bool Display_Module::simultaneousFunction(uint16_t command, uint16_t step){
 
-Display_Module::Display_Module(int slot)
-{   switch(slot){
-        case 1:
-            REDLITE = RED_SLOT1_PIN;
-            GREENLITE  = GREEN_SLOT1_PIN;
-            BLUELITE  = BLUE_SLOT1_PIN;
-        break;
-        case 2:
-            REDLITE = RED_SLOT2_PIN;
-            GREENLITE  = GREEN_SLOT2_PIN;
-            BLUELITE  = BLUE_SLOT2_PIN;
-        break;
-        case 3:
-            REDLITE = RED_SLOT3_PIN;
-            GREENLITE  = GREEN_SLOT3_PIN;
-            BLUELITE  = BLUE_SLOT3_PIN;
-        break;
-        default:
-            REDLITE = 0; GREENLITE  = 0; BLUELITE  = 0;
-        break;
-   }
+      switch(command)
+      {   case NO_COMMAND: maxSteps = standard;
+              if(rainbow(step)) return true;
+          break;
+          case SIMULT_FUNCTION_1: maxSteps = 25000;
+            if(infoColor(step, BLUE)) return true;
+          break;
+          case SIMULT_FUNCTION_2: maxSteps = 23500;
+            if(infoColor(step, RED)) return true;
+          break;
+          case SIMULT_FUNCTION_3: maxSteps = 1000;
+            if(infoColor(step, GREEN)) return true;
+          break;
+          case SIMULT_FUNCTION_4: maxSteps = 1000;
+            if(infoColor(step, WHITE)) return true;
+          break;
+          case SIMULT_FUNCTION_5: maxSteps = 1000;
+            if(infoColor(step, CORAL)) return true;
+          break;
+          case SIMULT_FUNCTION_6: maxSteps = 1000;
+            if(infoColor(step, PURPLE)) return true;
+          break;
+          // case INDEPENDENT_FUNCTION_1: maxSteps = 255; return true;
+          // case INDEPENDENT_FUNCTION_2: maxSteps = 255; return true;
+          // case INDEPENDENT_FUNCTION_3: maxSteps = 255; return true;
+          // case INDEPENDENT_FUNCTION_4: maxSteps = 255; return true;
+          // case INDEPENDENT_FUNCTION_5: maxSteps = 255; return true;
+          // case INDEPENDENT_FUNCTION_6: maxSteps = 255; return true;
+          default: return true;
+      }
+      if(step >= maxSteps) return true;
+      else return false;
 }
 /**************************************************************************************************/
 void Display_Module::setBacklight(uint8_t r, uint8_t g, uint8_t b, uint8_t brightness) {
@@ -51,3 +76,27 @@ void Display_Module::setBacklight(uint8_t r, uint8_t g, uint8_t b, uint8_t brigh
     analogWrite(BLUELITE, b);
 }
 /**************************************************************************************************/
+bool Display_Module::rainbow(uint16_t step){
+    //uint16_t i = step - maxSteps*(step/maxSteps);
+    //normalize to 255
+    uint16_t i = round(step/(maxSteps*1.0) * 765);
+    if(i <= 255) setBacklight(i, 0, 255-i, 255);
+    else if(i <= 510) setBacklight(255-i + 255, i - 255, 0, 255);
+    else if(i > 510) setBacklight(0, 255-i+ 510, i -510, 255);
+
+    if(step >= maxSteps) return true;
+    else return false;
+}
+/**************************************************************************************************/
+bool Display_Module::infoColor(uint16_t step, uint8_t color){
+      switch(color){
+        case RED:     setBacklight(255, 0, 0, brightness); break;
+        case BLUE:    setBacklight(0, 0, 255, brightness); break;
+        case GREEN:   setBacklight(0, 255, 0, brightness); break;
+        case PURPLE:   setBacklight(255, 64, 255, brightness); break;
+        case CORAL:  setBacklight(255, 64, 64, brightness); break;
+        case WHITE: setBacklight(255, 255, 255, brightness); break;
+      }
+      if( step >= maxSteps) return true;
+      else return false;
+}
