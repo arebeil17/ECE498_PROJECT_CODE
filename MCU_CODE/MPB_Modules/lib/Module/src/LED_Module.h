@@ -61,6 +61,7 @@ class LED_Module{
       bool initStrip(Adafruit_NeoPixel* strip);
 
       bool simultaneousFunction(uint16_t command, uint16_t step, Adafruit_NeoPixel* strip);
+      bool independentFunction(uint16_t command, uint16_t step, Adafruit_NeoPixel* strip);
 
       void breathe(uint16_t step, bool hold, uint8_t low, uint8_t high, uint8_t duration_factor
                   , Adafruit_NeoPixel* strip);

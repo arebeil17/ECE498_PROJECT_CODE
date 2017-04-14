@@ -20,6 +20,7 @@
 #include <LED_Module.h>
 #include <Sound_Module.h>
 #include <Adafruit_NeoPixel.h>
+#include <LiquidCrystal.h>
 //#include <Identify.h>
 /**************************************************************************************************/
 
@@ -47,8 +48,10 @@ class Controller {
 
 			void wait_Routine(uint16_t step);
 			void wait_Routine(uint16_t step, Adafruit_NeoPixel* strip);
+			void wait_Routine(uint16_t step, LiquidCrystal *lcd);
 			void execute_Routine(uint16_t step);
-			void execute_Routine(uint16_t step, Adafruit_NeoPixel* strip);
+			void execute_Routine(uint16_t step, Adafruit_NeoPixel *strip);
+			void execute_Routine(uint16_t step, LiquidCrystal *lcd);
 			void receive_Routine();
 
 			void done();
@@ -56,7 +59,7 @@ class Controller {
 
 			void resetMaxStep(uint8_t moduleType);
 
-			bool commandExecution(uint8_t moduleType, uint8_t command, uint16_t step, Adafruit_NeoPixel* strip);
+			bool commandExecution(uint8_t moduleType, uint8_t command, uint16_t step, Adafruit_NeoPixel* strip, LiquidCrystal *lcd);
 };
 
 #endif // Controller_H

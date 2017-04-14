@@ -56,24 +56,37 @@ void Controller::init(uint8_t moduleType){
 }
 /**************************************************************************************************/
 void Controller::wait_Routine(uint16_t step){
-    if(commandExecution(moduleType, NO_COMMAND, step, NULL)){
+    if(commandExecution(moduleType, NO_COMMAND, step, NULL, NULL)){
         done();
     }
 }
 /**************************************************************************************************/
 void Controller::wait_Routine(uint16_t step, Adafruit_NeoPixel* strip){
-    if(commandExecution(moduleType, NO_COMMAND, step, strip)){
+  if(commandExecution(moduleType, NO_COMMAND, step, strip, NULL)){
+        done();
+    }
+}
+/**************************************************************************************************/
+void Controller::wait_Routine(uint16_t step, LiquidCrystal *lcd){
+    if(commandExecution(moduleType, NO_COMMAND, step, NULL, lcd)){
         done();
     }
 }
 /**************************************************************************************************/
 void Controller::execute_Routine(uint16_t step){
-    if(commandExecution(moduleType, currentCommand, step, NULL)){
+    if(commandExecution(moduleType, currentCommand, step, NULL, NULL)){
         done();
     }
 }
-void Controller::execute_Routine(uint16_t step, Adafruit_NeoPixel* strip){
-    if(commandExecution(moduleType, currentCommand, step, strip)){
+/**************************************************************************************************/
+void Controller::execute_Routine(uint16_t step, Adafruit_NeoPixel *strip){
+    if(commandExecution(moduleType, currentCommand, step, strip, NULL)){
+        done();
+    }
+}
+/**************************************************************************************************/
+void Controller::execute_Routine(uint16_t step, LiquidCrystal *lcd){
+    if(commandExecution(moduleType, currentCommand, step, NULL, lcd)){
         done();
     }
 }
@@ -108,23 +121,27 @@ void Controller::done(){
     //commDirector.transmit();
 }
 /**************************************************************************************************/
-bool Controller::commandExecution(uint8_t moduleType, uint8_t command, uint16_t step, Adafruit_NeoPixel* strip){
+bool Controller::commandExecution(uint8_t moduleType, uint8_t command, uint16_t step, Adafruit_NeoPixel* strip, LiquidCrystal *lcd){
       switch (moduleType) {
         case LED_MODULE:
             if(command < 128) {
               if(led_Module.simultaneousFunction(command, step, strip)) return true;
+            }else{
+              if(led_Module.independentFunction(command, step, strip)) return true;
             }
             return false;
         break;
         case LCD_MODULE:
-            if(command < 128){
-               if(display_Module.simultaneousFunction(command, step)) return true;
+             if(command < 128){
+               if(display_Module.simultaneousFunction(command, step, lcd)) return true;
              }
              return false;
         break;
         case SOUND_MODULE:
             if(command < 128){
                if(sound_Module.simultaneousFunction(command, step)) return true;
+             }else{
+               if(sound_Module.independentFunction(command, step)) return true;
              }
              return false;
         break;
@@ -141,7 +158,7 @@ bool Controller::validCommandCheck(uint8_t command){
           case SIMULT_FUNCTION_4:  return true;
           case SIMULT_FUNCTION_5:  return true;
           case SIMULT_FUNCTION_6:  return true;
-          case INDEPENDENT_FUNCTION_1: ; return true;
+          case INDEPENDENT_FUNCTION_1:  return true;
           case INDEPENDENT_FUNCTION_2:  return true;
           case INDEPENDENT_FUNCTION_3:  return true;
           case INDEPENDENT_FUNCTION_4:  return true;

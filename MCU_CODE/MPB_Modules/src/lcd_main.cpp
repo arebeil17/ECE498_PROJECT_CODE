@@ -64,23 +64,27 @@ void loop() {
 }
 
 void waitUpdate(){
-    lcd.clear(); lcd.setCursor ( 0, 0 ); lcd.print("WAIT");
-    sprintf(temp,"step: %i",  step);
-    lcd.setCursor ( 0, 1 ); lcd.print(temp);
+    if(DEBUG){
+        lcd.clear(); lcd.setCursor ( 0, 0 ); lcd.print("WAIT");
+        sprintf(temp,"step: %i",  step);
+        lcd.setCursor ( 0, 1 ); lcd.print(temp);
+    }
     //-------------------------------------------------------------
     step++;
-    controller.wait_Routine(step);
+    controller.wait_Routine(step, &lcd);
     if(controller.stateResolved){ step = 0; controller.stateResolved = false;
     if(DEBUG) delay(DEBUG_DELAY);}
 
 }
 void executeUpdate(){
-    lcd.clear(); lcd.setCursor ( 0, 0 ); lcd.print("EXECUTE");
-    sprintf(temp,"cmd:%i step:%i", controller.currentCommand,  step);
-    lcd.setCursor ( 0, 1 ); lcd.print(temp);
+    if(DEBUG){
+        lcd.clear(); lcd.setCursor ( 0, 0 ); lcd.print("EXECUTE");
+        sprintf(temp,"cmd:%i step:%i", controller.currentCommand,  step);
+        lcd.setCursor ( 0, 1 ); lcd.print(temp);
+    }
   //-------------------------------------------------------------
     step++;
-    controller.execute_Routine(step);
+    controller.execute_Routine(step, &lcd);
     if(controller.stateResolved){ step = 0; controller.stateResolved = false;
     if(DEBUG) delay(DEBUG_DELAY);}
 

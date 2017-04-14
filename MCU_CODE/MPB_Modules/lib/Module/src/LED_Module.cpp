@@ -30,45 +30,90 @@ bool LED_Module::initStrip(Adafruit_NeoPixel* strip){
       strip->begin();
       strip->show(); // Initialize all pixels to 'off'
       sweepColor = strip->Color(0, 255, 0, 0);
-      baseColor = getColorCode(0);
-      colorWipe(getColorCode(0), true, strip);
+      baseColor = strip->Color(0, 0, 0, 0);
+      colorWipe(baseColor, true, strip);
       return true;
 }
 /**************************************************************************************************/
 bool LED_Module::simultaneousFunction(uint16_t command, uint16_t step, Adafruit_NeoPixel* strip){
     switch(command)
     {   case NO_COMMAND: maxSteps = standard;
-             flashColor = getColorCode(RED);
-             flash(step, 6, 50, strip);
-             //breathe(step, false, 5,  255, 0, strip);
+             breatheColor = strip2.Color(0, 0, brightness, 0);
+             breathe(step, false, 5,  255, 1, strip);
         break;
         case SIMULT_FUNCTION_1: maxSteps = standard;
-            if(WheelPos >= 255) WheelPos = 0;
-            waitFunction(step, strip);
+            flashColor = getColorCode(RED);
+            flash(step, 1, 10, strip);
         break;
-        case SIMULT_FUNCTION_2: maxSteps = 25000;
-            sweepColor = getColorCode(RED);
-            NightRider(strip);
+        case SIMULT_FUNCTION_2: maxSteps = standard;
+            flashColor = getColorCode(GREEN);
+            flash(step, 2, 10, strip);
         break;
-        case SIMULT_FUNCTION_3: maxSteps = 23500;
+        case SIMULT_FUNCTION_3: maxSteps = standard;
+            flashColor = getColorCode(BLUE);
+            flash(step, 3, 10, strip);
+        break;
+        case SIMULT_FUNCTION_4: maxSteps = standard;
+            flashColor = getColorCode(WHITE);
+            flash(step, 4, 10, strip);
+        break;
+        case SIMULT_FUNCTION_5: maxSteps = standard;
+            flashColor = getColorCode(PURPLE);
+            flash(step, 5, 10, strip);
+        break;
+        case SIMULT_FUNCTION_6: maxSteps = standard;
+            flashColor = getColorCode(CORAL);
+            flash(step, 6, 10, strip);
+        break;
+        case SIMULT_FUNCTION_7: maxSteps = standard;
+            clusterSize = 8;
             if(WheelPos >= 255) WheelPos = 0;
             WheelPos = round(step/(standard*1.0) * 255);
             sweepColor = Wheel(WheelPos, strip);
             Sweep(sweepColor, strip);
         break;
-        case SIMULT_FUNCTION_4: maxSteps = 1000;
+        default: return true;
+    }
+    if(step >= maxSteps){
+       baseColor = strip->Color(0, 0, 0, 0);
+       flashCount = 0;
+       return true;
+    }else return false;
+}
+/**************************************************************************************************/
+bool LED_Module::independentFunction(uint16_t command, uint16_t step, Adafruit_NeoPixel* strip){
+    switch(command)
+    {   case NO_COMMAND: maxSteps = standard;
+             breatheColor = strip2.Color(0, 0, brightness, 0);
+             breathe(step, false, 5,  255, 0, strip);
+        break;
+        case INDEPENDENT_FUNCTION_1: maxSteps = standard;
+            if(WheelPos >= 255) WheelPos = 0;
+            waitFunction(step, strip);
+        break;
+        case INDEPENDENT_FUNCTION_2: maxSteps = 25000;
+            sweepColor = getColorCode(RED);
+            NightRider(strip);
+        break;
+        case INDEPENDENT_FUNCTION_3: maxSteps = 23500;
+            if(WheelPos >= 255) WheelPos = 0;
+            WheelPos = round(step/(standard*1.0) * 255);
+            sweepColor = Wheel(WheelPos, strip);
+            Sweep(sweepColor, strip);
+        break;
+        case INDEPENDENT_FUNCTION_4: maxSteps = 1000;
             sweepColor = getColorCode(GREEN);
             Sweep(sweepColor, strip);
         break;
-        case SIMULT_FUNCTION_5: maxSteps = 1000;
+        case INDEPENDENT_FUNCTION_5: maxSteps = 1000;
             sweepColor = getColorCode(BLUE);
             Sweep(sweepColor, strip);
         break;
-        case SIMULT_FUNCTION_6: maxSteps = 1000;
+        case INDEPENDENT_FUNCTION_6: maxSteps = 1000;
             sweepColor = getColorCode(PURPLE);
             Sweep(sweepColor, strip);
         break;
-        case SIMULT_FUNCTION_7: maxSteps = 1000;
+        case INDEPENDENT_FUNCTION_7: maxSteps = 1000;
             sweepColor = getColorCode(CORAL);
             Sweep(sweepColor, strip);
         break;
@@ -77,6 +122,8 @@ bool LED_Module::simultaneousFunction(uint16_t command, uint16_t step, Adafruit_
     if(step >= maxSteps){
        baseColor = strip->Color(0, 0, 0, 0);
        flashCount = 0;
+       clusterSize = 37;
+       fadeFactor = 7;
        return true;
     }else return false;
 }
@@ -110,8 +157,6 @@ void LED_Module::breathe(uint16_t step, bool hold, uint8_t low, uint8_t high, ui
             holdCount = 0;
           }
       }
-      //Serial.println(brightness);
-      breatheColor = strip2.Color(0, 0, brightness, 0);
       //Display current breathe level color
       colorWipe(breatheColor, true, strip);
 }

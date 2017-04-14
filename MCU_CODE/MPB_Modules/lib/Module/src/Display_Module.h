@@ -37,6 +37,8 @@ class Display_Module {
       uint8_t moduleType;
       uint16_t standard;
       uint16_t maxSteps;
+      uint8_t scrollCount;
+      bool displayed;
 
       Display_Module();
 
@@ -44,11 +46,19 @@ class Display_Module {
 
       void setBacklight(uint8_t r, uint8_t g, uint8_t b, uint8_t brightness);
 
-      bool simultaneousFunction(uint16_t command, uint16_t step);
+      bool simultaneousFunction(uint16_t command, uint16_t step, LiquidCrystal *lcd);
 
-      bool rainbow(uint16_t step);
+      bool independentFunction(uint16_t command, uint16_t step, LiquidCrystal *lcd);
 
-      bool infoColor(uint16_t step, uint8_t color);
+      void displayIdle(LiquidCrystal *lcd, uint16_t step, uint16_t every);
+
+      void teamInfo(LiquidCrystal *lcd, uint16_t step, uint16_t every);
+
+      void displayString(LiquidCrystal *lcd, char text[][20], uint8_t rows);
+
+      void rainbow(uint16_t step);
+
+      void infoColor(uint16_t step, uint8_t color);
 };
 
 #endif // DISPLAY_MODULE_H

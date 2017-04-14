@@ -35,7 +35,7 @@ Controller controller = Controller(SOUND_MODULE);
 
 void setup() {
     Serial.begin(38400);
-    Serial.println("TPA2016 Audio Test");
+    //Serial.println("TPA2016 Audio Test");
     audioamp.begin();
     audioamp.setGain(10);
     receiveTimer.every(PERIOD1, receive);
@@ -59,7 +59,7 @@ void loop() {
 
 void waitUpdate(){
     step++;
-    if(step%1000 == 0) Serial.println("WAIT");
+    //if(step%1000 == 0) Serial.println("WAIT");
     controller.wait_Routine(step);
     if(controller.stateResolved){ step = 0; controller.stateResolved = false;
     if(DEBUG) delay(DEBUG_DELAY);}
@@ -67,7 +67,7 @@ void waitUpdate(){
 }
 void executeUpdate(){
     step++;
-    if(step%1000 == 0) Serial.println("EXECUTE");
+    //if(step%1000 == 0) Serial.println("EXECUTE");
     controller.execute_Routine(step);
     if(controller.stateResolved){ step = 0; controller.stateResolved = false;
     if(DEBUG) delay(DEBUG_DELAY);}

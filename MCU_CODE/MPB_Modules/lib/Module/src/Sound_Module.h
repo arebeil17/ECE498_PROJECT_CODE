@@ -35,14 +35,20 @@ class Sound_Module {
       uint16_t standard;
       uint16_t maxSteps;
       uint16_t endStep;
+      uint16_t beepCount;
+      //volume control
+      uint8_t volumeCount;
 
       Sound_Module();
 
       void initSound();
 
       bool simultaneousFunction(uint16_t command, uint16_t step);
+      bool independentFunction(uint16_t command, uint16_t step);
 
       void sequentialBeep(uint16_t step, uint16_t every, uint16_t endStep);
+      void beepBurst(uint16_t step, uint8_t numBeeps, uint16_t every, uint16_t endStep);
+      void volumeControl(uint16_t step, uint16_t every, uint16_t endStep, uint8_t volDiff, bool increase);
 
       void reset();
 };
