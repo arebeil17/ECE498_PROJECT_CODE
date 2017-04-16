@@ -43,6 +43,7 @@ uint8_t lastState = WAIT;
 Controller controller = Controller(LCD_MODULE);
 
 void setup() {
+    //Serial.begin(38400);
     lcd.begin(20, 4);
     receiveTimer.every(PERIOD1, receive);
     t1.every(WAIT_PERIOD, waitUpdate);

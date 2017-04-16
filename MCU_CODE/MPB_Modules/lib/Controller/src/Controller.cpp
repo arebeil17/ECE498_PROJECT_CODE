@@ -95,7 +95,7 @@ void Controller::receive_Routine(){
     if(commDirector.receive()){
         if(commDirector.command.abort){
             done();
-            commDirector.transmit();
+            //commDirector.transmit();
         }else if(commDirector.command.command ==  NO_COMMAND){
               currentCommand = commDirector.command.command;
               state = state;
@@ -103,6 +103,8 @@ void Controller::receive_Routine(){
             currentCommand = commDirector.command.command;
             state = EXECUTE;
             stateResolved = true;
+            if(moduleType == LCD_MODULE) display_Module.displayed = false;
+            if(moduleType == SOUND_MODULE) sound_Module.beepCount = 0;
         }
         commDirector.stageTransmit(state, moduleType, currentCommand);
         commDirector.transmit();
@@ -118,6 +120,8 @@ void Controller::done(){
     commDirector.command.clear();
     stateResolved = true;
     if(moduleType == SOUND_MODULE) sound_Module.reset();
+    if(moduleType == LCD_MODULE) display_Module.reset();
+    if(moduleType == LED_MODULE) led_Module.reset();
     //commDirector.transmit();
 }
 /**************************************************************************************************/
@@ -134,6 +138,8 @@ bool Controller::commandExecution(uint8_t moduleType, uint8_t command, uint16_t 
         case LCD_MODULE:
              if(command < 128){
                if(display_Module.simultaneousFunction(command, step, lcd)) return true;
+             }else{
+               if(display_Module.independentFunction(command, step, lcd)) return true;
              }
              return false;
         break;

@@ -59,7 +59,8 @@ void loop() {
 
 void waitUpdate(){
     step++;
-    //if(step%1000 == 0) Serial.println("WAIT");
+    if(step%100 == 0){ Serial.println("WAIT");
+                        Serial.println(controller.sound_Module.beepCount);}
     controller.wait_Routine(step);
     if(controller.stateResolved){ step = 0; controller.stateResolved = false;
     if(DEBUG) delay(DEBUG_DELAY);}
@@ -67,7 +68,8 @@ void waitUpdate(){
 }
 void executeUpdate(){
     step++;
-    //if(step%1000 == 0) Serial.println("EXECUTE");
+    if(step%100 == 0){ Serial.println("EXECUTE");
+                        Serial.println(controller.sound_Module.beepCount);}
     controller.execute_Routine(step);
     if(controller.stateResolved){ step = 0; controller.stateResolved = false;
     if(DEBUG) delay(DEBUG_DELAY);}

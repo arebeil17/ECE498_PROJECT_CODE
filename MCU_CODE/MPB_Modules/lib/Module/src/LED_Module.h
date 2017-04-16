@@ -73,7 +73,7 @@ class LED_Module{
       void Sweep(uint32_t c, Adafruit_NeoPixel* strip);
       void moveCluster(int start, bool direction, Adafruit_NeoPixel* strip, bool nightRider);
       uint32_t getColorCode(uint8_t color);
-
+      void reset();
 };
 
 #endif // LED_MODULE_H

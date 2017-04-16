@@ -31,7 +31,6 @@ using namespace std;
 //Display_Module is a Subclass of the Module Superclass
 class Display_Module {
     private:
-
       uint8_t brightness = 255;
     public:
       uint8_t moduleType;
@@ -50,15 +49,25 @@ class Display_Module {
 
       bool independentFunction(uint16_t command, uint16_t step, LiquidCrystal *lcd);
 
-      void displayIdle(LiquidCrystal *lcd, uint16_t step, uint16_t every);
+      void displayIdle(uint16_t step, uint16_t every, LiquidCrystal *lcd);
+      //Indepdent Functions
+      void teamInfo(uint16_t step, uint16_t every, LiquidCrystal *lcd);
+      void payloadInfo(LiquidCrystal *lcd);
+      void mentorInfo(uint16_t step, uint16_t every, LiquidCrystal *lcd);
+      void manufacturingInfo(LiquidCrystal *lcd);
+      void projectInfo(LiquidCrystal *lcd);
 
-      void teamInfo(LiquidCrystal *lcd, uint16_t step, uint16_t every);
+      void displayNumber(uint8_t number, LiquidCrystal *lcd);
+
+      void cycleNumber(uint16_t step, uint16_t every, LiquidCrystal *lcd);
 
       void displayString(LiquidCrystal *lcd, char text[][20], uint8_t rows);
 
       void rainbow(uint16_t step);
 
       void infoColor(uint16_t step, uint8_t color);
+
+      void reset();
 };
 
 #endif // DISPLAY_MODULE_H

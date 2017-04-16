@@ -15,6 +15,8 @@ Sound_Module::Sound_Module()
     moduleType = SOUND_MODULE;
     standard = 3000;
     maxSteps = 1000;
+    beepCount = 0;
+    volumeCount = 0;
 }
 /**************************************************************************************************/
 void Sound_Module::initSound(){
@@ -29,8 +31,8 @@ void Sound_Module::initSound(){
 bool Sound_Module::simultaneousFunction(uint16_t command, uint16_t step){
     switch(command)
     {   case NO_COMMAND:
-          maxSteps = standard;
-          beepBurst(step, 3, 100, 35);
+            maxSteps = standard;
+            beepBurst(step, 3, 100, 35);
         break;
         case SIMULT_FUNCTION_1: maxSteps = standard;
             beepBurst(step, 1, 100, 35);
@@ -57,13 +59,13 @@ bool Sound_Module::simultaneousFunction(uint16_t command, uint16_t step){
         break;
         default: return true;
     }
-    /*if(command != lastCommand && command != NO_COMMAND){
+    if(command != lastCommand && command != NO_COMMAND){
         digitalWrite(TRACK0_PIN, HIGH);
         digitalWrite(TRACK1_PIN, HIGH);
         digitalWrite(TRACK2_PIN, HIGH);
-    }*/
+    }
 
-    if((step >= maxSteps) || (command != lastCommand && command != NO_COMMAND)){
+    if((step >= maxSteps)){
         beepCount = 0;
         volumeCount = 0;
         digitalWrite(TRACK0_PIN, HIGH);
@@ -95,9 +97,11 @@ bool Sound_Module::independentFunction(uint16_t command, uint16_t step){
         break;
         case INDEPENDENT_FUNCTION_3: maxSteps = 1000;
             volumeControl(step, 100, 50, 10, true);
+            beepBurst(step, 10, 100, 35);
         break;
         case INDEPENDENT_FUNCTION_4: maxSteps = 1000;
             volumeControl(step, 100, 50, 10, false);
+            beepBurst(step, 10, 100, 35);
         break;
         case INDEPENDENT_FUNCTION_5: maxSteps = 1000 + 175;
             sequentialBeep(step, 500, 175);
@@ -107,7 +111,13 @@ bool Sound_Module::independentFunction(uint16_t command, uint16_t step){
         break;
         default: return true;
     }
-    if((step >= maxSteps) || (command != lastCommand && command != NO_COMMAND)){
+    if(command != lastCommand && command != NO_COMMAND){
+        digitalWrite(TRACK0_PIN, HIGH);
+        digitalWrite(TRACK1_PIN, HIGH);
+        digitalWrite(TRACK2_PIN, HIGH);
+    }
+
+    if((step >= maxSteps)){
         beepCount = 0;
         volumeCount = 0;
         digitalWrite(TRACK0_PIN, HIGH);
@@ -155,14 +165,18 @@ void Sound_Module::volumeControl(uint16_t step, uint16_t every, uint16_t endStep
               digitalWrite(VOL_DOWN_PIN, LOW);
               digitalWrite(VOL_UP_PIN, HIGH);
             }
-            this->endStep = step + endStep;
+            vol_endStep = step + endStep;
             //Serial.print("Endstep: "); Serial.println(endStep);
-      }else if(this->endStep == step){
-              digitalWrite(TRACK0_PIN, HIGH);
+      }else if(vol_endStep == step){
+          digitalWrite(VOL_DOWN_PIN, HIGH);
+          digitalWrite(VOL_UP_PIN, HIGH);
       }
 }
 /**************************************************************************************************/
 void Sound_Module::reset(){
+    beepCount = 0;
+    vol_endStep = 0;
+    volumeCount = 0;
     digitalWrite(TRACK0_PIN, HIGH);
     digitalWrite(TRACK1_PIN, HIGH);
     digitalWrite(TRACK2_PIN, HIGH);

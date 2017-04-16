@@ -22,6 +22,8 @@ LED_Module::LED_Module()
     hold_on = false;
     flashStep = 0;
     flashCount = 0;
+    clusterSize = 6; //clusterSize = 37;
+    fadeFactor = 40; //fadeFactor = 7;
 }
 /**************************************************************************************************/
 //Initialize module as an LED Payload specify slot position
@@ -76,6 +78,10 @@ bool LED_Module::simultaneousFunction(uint16_t command, uint16_t step, Adafruit_
     }
     if(step >= maxSteps){
        baseColor = strip->Color(0, 0, 0, 0);
+       ascend = true;
+       brightness = 0;
+       hold_on = false;
+       flashStep = 0;
        flashCount = 0;
        return true;
     }else return false;
@@ -121,9 +127,11 @@ bool LED_Module::independentFunction(uint16_t command, uint16_t step, Adafruit_N
     }
     if(step >= maxSteps){
        baseColor = strip->Color(0, 0, 0, 0);
+       ascend = true;
+       brightness = 0;
+       hold_on = false;
+       flashStep = 0;
        flashCount = 0;
-       clusterSize = 37;
-       fadeFactor = 7;
        return true;
     }else return false;
 }
@@ -264,4 +272,12 @@ uint32_t LED_Module::getColorCode(uint8_t color){
       case LT_BLUE: return strip2.Color(0, 0, 255, 50);
       default: return strip2.Color(0, 0, 0, 0);
     }
+}
+/**************************************************************************************************/
+void LED_Module::reset(){
+    ascend = true;
+    brightness = 0;
+    hold_on = false;
+    flashStep = 0;
+    flashCount = 0;
 }

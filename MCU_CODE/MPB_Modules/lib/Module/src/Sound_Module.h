@@ -35,6 +35,7 @@ class Sound_Module {
       uint16_t standard;
       uint16_t maxSteps;
       uint16_t endStep;
+      uint16_t vol_endStep;
       uint16_t beepCount;
       //volume control
       uint8_t volumeCount;
