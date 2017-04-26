@@ -22,8 +22,11 @@ LED_Module::LED_Module()
     hold_on = false;
     flashStep = 0;
     flashCount = 0;
-    clusterSize = 6; //clusterSize = 37;
-    fadeFactor = 40; //fadeFactor = 7;
+    clusterSize = 5; //clusterSize = 37;
+    fadeFactor = 50; //fadeFactor = 7;
+    twinkleCount = 0;
+    strobeCount = 0;
+    select = 0;
 }
 /**************************************************************************************************/
 //Initialize module as an LED Payload specify slot position
@@ -68,11 +71,14 @@ bool LED_Module::simultaneousFunction(uint16_t command, uint16_t step, Adafruit_
             flash(step, 6, 10, strip);
         break;
         case SIMULT_FUNCTION_7: maxSteps = standard;
-            clusterSize = 8;
-            if(WheelPos >= 255) WheelPos = 0;
-            WheelPos = round(step/(standard*1.0) * 255);
-            sweepColor = Wheel(WheelPos, strip);
-            Sweep(sweepColor, strip);
+            if(step%3 == 0){
+              clusterSize = 8; fadeFactor = 30;
+              baseColor = strip->Color(0, 0, 0, 0);
+              if(WheelPos >= 255) WheelPos = 0;
+              WheelPos = round(step/(standard*1.0) * 255);
+              sweepColor = Wheel(WheelPos, strip);
+              Sweep(sweepColor, strip);
+            }
         break;
         default: return true;
     }
@@ -83,6 +89,8 @@ bool LED_Module::simultaneousFunction(uint16_t command, uint16_t step, Adafruit_
        hold_on = false;
        flashStep = 0;
        flashCount = 0;
+       twinkleCount = 0;
+       strobeCount = 0;
        return true;
     }else return false;
 }
@@ -98,40 +106,51 @@ bool LED_Module::independentFunction(uint16_t command, uint16_t step, Adafruit_N
             waitFunction(step, strip);
         break;
         case INDEPENDENT_FUNCTION_2: maxSteps = 25000;
+            if(step%3 == 0){
+            clusterSize = 8; fadeFactor = 30;
+            baseColor = strip->Color(0, 0, 0, 0);
             sweepColor = getColorCode(RED);
-            NightRider(strip);
+            NightRider(strip);}
         break;
         case INDEPENDENT_FUNCTION_3: maxSteps = 23500;
-            if(WheelPos >= 255) WheelPos = 0;
-            WheelPos = round(step/(standard*1.0) * 255);
-            sweepColor = Wheel(WheelPos, strip);
-            Sweep(sweepColor, strip);
+            if(step%3 == 0){
+              clusterSize = 8; fadeFactor = 30;
+              baseColor = strip->Color(0, 0, 0, 0);
+              if(WheelPos >= 255) WheelPos = 0;
+              WheelPos = round(step/(standard*1.0) * 255);
+              sweepColor = Wheel(WheelPos, strip);
+              Sweep(sweepColor, strip);
+           }
         break;
-        case INDEPENDENT_FUNCTION_4: maxSteps = 1000;
-            sweepColor = getColorCode(GREEN);
-            Sweep(sweepColor, strip);
+        case INDEPENDENT_FUNCTION_4: maxSteps = standard;
+            randomTwinkle(step, 50, NUM_PIXELS, strip);
         break;
-        case INDEPENDENT_FUNCTION_5: maxSteps = 1000;
-            sweepColor = getColorCode(BLUE);
-            Sweep(sweepColor, strip);
+        case INDEPENDENT_FUNCTION_5: maxSteps = standard;
+            sparkle(strip2.Color(20,20,20,0),
+               strip2.Color(255,255,255,100),
+               step, 25, strip);
         break;
-        case INDEPENDENT_FUNCTION_6: maxSteps = 1000;
+        case INDEPENDENT_FUNCTION_6: maxSteps = standard;
+            if(step%3 == 0){
             sweepColor = getColorCode(PURPLE);
-            Sweep(sweepColor, strip);
+            Sweep(sweepColor, strip);}
         break;
-        case INDEPENDENT_FUNCTION_7: maxSteps = 1000;
+        case INDEPENDENT_FUNCTION_7: maxSteps = standard;
+            if(step%3 == 0){
             sweepColor = getColorCode(CORAL);
-            Sweep(sweepColor, strip);
+            Sweep(sweepColor, strip);}
         break;
         default: return true;
     }
     if(step >= maxSteps){
-       baseColor = strip->Color(0, 0, 0, 0);
+       baseColor = getColorCode(0);
        ascend = true;
        brightness = 0;
        hold_on = false;
        flashStep = 0;
        flashCount = 0;
+       colorWipe(getColorCode(0), true, strip);
+       strobeCount = 0;
        return true;
     }else return false;
 }
@@ -261,6 +280,31 @@ void LED_Module::moveCluster(int start, bool direction, Adafruit_NeoPixel* strip
     strip->show();
 }
 /**************************************************************************************************/
+void LED_Module::randomTwinkle(uint16_t step, uint16_t every, uint16_t max, Adafruit_NeoPixel* strip){
+    if(step <= 1)  colorWipe(getColorCode(0), true, strip);
+    if(step%every == 0){
+       twinkleCount++;
+       strip->setPixelColor(random(strip->numPixels()),strip2.Color(random(255), random(255), random(255), random(25)));
+       strip->show();
+    }else if(twinkleCount > max){
+       colorWipe(getColorCode(0), true, strip);
+       twinkleCount = 0;
+    }
+}
+/**************************************************************************************************/
+void LED_Module::sparkle(uint32_t c, uint32_t s, uint16_t step, uint16_t every, Adafruit_NeoPixel* strip){
+   if(step%every == 0){
+        select = random(NUM_PIXELS);
+        colorWipe(c,true, strip);
+        //strip->setPixelColor(select,strip2.Color(150,150,255,0));
+        strip->setPixelColor(select, s);
+        strip->show();
+    }else if(step%(every/5) == 0){
+      strip->setPixelColor(select,c);
+      strip->show();
+    }
+}
+/**************************************************************************************************/
 uint32_t LED_Module::getColorCode(uint8_t color){
     switch (color) {
       case RED: return strip2.Color(0, 255, 0, 0);
@@ -280,4 +324,6 @@ void LED_Module::reset(){
     hold_on = false;
     flashStep = 0;
     flashCount = 0;
+    twinkleCount = 0;
+    strobeCount = 0;
 }

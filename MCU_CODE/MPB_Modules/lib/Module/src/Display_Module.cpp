@@ -64,7 +64,7 @@ bool Display_Module::simultaneousFunction(uint16_t command, uint16_t step, Liqui
           break;
           case SIMULT_FUNCTION_7: maxSteps = standard;
             rainbow(step);
-            displayNumber(0, lcd);
+            projectInfo(lcd);
           break;
           default: return true;
       }

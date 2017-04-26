@@ -68,6 +68,7 @@ bool Sound_Module::simultaneousFunction(uint16_t command, uint16_t step){
     if((step >= maxSteps)){
         beepCount = 0;
         volumeCount = 0;
+        on = false;
         digitalWrite(TRACK0_PIN, HIGH);
         digitalWrite(TRACK1_PIN, HIGH);
         digitalWrite(TRACK2_PIN, HIGH);
@@ -95,19 +96,19 @@ bool Sound_Module::independentFunction(uint16_t command, uint16_t step){
             digitalWrite(TRACK1_PIN, HIGH);
             digitalWrite(TRACK2_PIN, LOW);
         break;
-        case INDEPENDENT_FUNCTION_3: maxSteps = 1000;
+        case INDEPENDENT_FUNCTION_3: maxSteps = standard;
+            beepBurst(step, 1, 100, 35);
+        break;
+        case INDEPENDENT_FUNCTION_4: maxSteps = standard;
+            randomBeep(step, 100, 500, 35);
+        break;
+        case INDEPENDENT_FUNCTION_5: maxSteps = standard;
             volumeControl(step, 100, 50, 10, true);
             beepBurst(step, 10, 100, 35);
         break;
-        case INDEPENDENT_FUNCTION_4: maxSteps = 1000;
+        case INDEPENDENT_FUNCTION_6: maxSteps = standard;
             volumeControl(step, 100, 50, 10, false);
             beepBurst(step, 10, 100, 35);
-        break;
-        case INDEPENDENT_FUNCTION_5: maxSteps = 1000 + 175;
-            sequentialBeep(step, 500, 175);
-        break;
-        case INDEPENDENT_FUNCTION_6: maxSteps = 1000 + 210;
-            sequentialBeep(step, 500, 210);
         break;
         default: return true;
     }
@@ -153,6 +154,21 @@ void Sound_Module::beepBurst(uint16_t step, uint8_t numBeeps, uint16_t every, ui
                 digitalWrite(TRACK0_PIN, HIGH);
         }
 
+}
+/**************************************************************************************************/
+void Sound_Module::randomBeep(uint16_t step, uint8_t numBeeps, uint16_t every, uint16_t endStep){
+    if((step%random(every) == 0) && beepCount < numBeeps && !on){
+          beepCount++;
+          on= true;
+          //Serial.print("Beep, step: "); Serial.println(step);
+          digitalWrite(TRACK0_PIN, LOW);
+          this->endStep = step + endStep;
+          //Serial.print("Endstep: "); Serial.println(endStep);
+    }else if(this->endStep == step){
+          digitalWrite(TRACK0_PIN, HIGH);
+    }else if(this->endStep+2 == step){
+          on = false;
+    }
 }
 /**************************************************************************************************/
 void Sound_Module::volumeControl(uint16_t step, uint16_t every, uint16_t endStep, uint8_t volDiff, bool increase){

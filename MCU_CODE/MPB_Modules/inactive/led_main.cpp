@@ -83,6 +83,7 @@ void executeUpdate(){
 
 }
 void receive(){
-    controller.receive_Routine();
+    if(controller.receive_Routine())
+      controller.led_Module.colorWipe(strip.Color(0,0,0,0), true, &strip);
     if(controller.stateResolved){ step = 0; controller.stateResolved = false;}
 }

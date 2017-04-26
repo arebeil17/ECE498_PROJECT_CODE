@@ -52,7 +52,7 @@ class Controller {
 			void execute_Routine(uint16_t step);
 			void execute_Routine(uint16_t step, Adafruit_NeoPixel *strip);
 			void execute_Routine(uint16_t step, LiquidCrystal *lcd);
-			void receive_Routine();
+			bool receive_Routine();
 
 			void done();
 			bool validCommandCheck(uint8_t command);

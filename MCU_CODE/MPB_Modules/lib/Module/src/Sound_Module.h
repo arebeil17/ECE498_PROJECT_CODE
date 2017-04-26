@@ -30,6 +30,7 @@ using namespace std;
 class Sound_Module {
     private:
       uint8_t lastCommand;
+      bool on;
     public:
       uint8_t moduleType;
       uint16_t standard;
@@ -49,6 +50,7 @@ class Sound_Module {
 
       void sequentialBeep(uint16_t step, uint16_t every, uint16_t endStep);
       void beepBurst(uint16_t step, uint8_t numBeeps, uint16_t every, uint16_t endStep);
+      void randomBeep(uint16_t step, uint8_t numBeeps, uint16_t every, uint16_t endStep);
       void volumeControl(uint16_t step, uint16_t every, uint16_t endStep, uint8_t volDiff, bool increase);
 
       void reset();

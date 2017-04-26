@@ -91,10 +91,12 @@ void Controller::execute_Routine(uint16_t step, LiquidCrystal *lcd){
     }
 }
 /**************************************************************************************************/
-void Controller::receive_Routine(){
+bool Controller::receive_Routine(){
+    bool abort = false;
     if(commDirector.receive()){
         if(commDirector.command.abort){
             done();
+            abort = true;
             //commDirector.transmit();
         }else if(commDirector.command.command ==  NO_COMMAND){
               currentCommand = commDirector.command.command;
@@ -109,7 +111,7 @@ void Controller::receive_Routine(){
         commDirector.stageTransmit(state, moduleType, currentCommand);
         commDirector.transmit();
     }
-
+    return abort;
 }
 /**************************************************************************************************/
 void Controller::done(){
@@ -164,12 +166,14 @@ bool Controller::validCommandCheck(uint8_t command){
           case SIMULT_FUNCTION_4:  return true;
           case SIMULT_FUNCTION_5:  return true;
           case SIMULT_FUNCTION_6:  return true;
+          case SIMULT_FUNCTION_7:  return true;
           case INDEPENDENT_FUNCTION_1:  return true;
           case INDEPENDENT_FUNCTION_2:  return true;
           case INDEPENDENT_FUNCTION_3:  return true;
           case INDEPENDENT_FUNCTION_4:  return true;
           case INDEPENDENT_FUNCTION_5:  return true;
           case INDEPENDENT_FUNCTION_6:  return true;
+          case INDEPENDENT_FUNCTION_7:  return true;
           default: return false;
       }
 }
@@ -182,3 +186,4 @@ void Controller::resetMaxStep(uint8_t moduleType){
       case SOUND_MODULE: maxSteps = sound_Module.standard;; break;
     }
 }
+/**************************************************************************************************/

@@ -20,7 +20,7 @@
 using namespace std;
 
 #define LED_STRIP_PIN 22
-#define NUM_PIXELS 60
+#define NUM_PIXELS 20
 #define LOW_LEVEL 52
 #define HIGH_LEVEL 255
 
@@ -35,6 +35,8 @@ class LED_Module{
       unsigned int ledPos = 0;
       uint8_t WheelPos = 0;
       uint8_t colorSelect = 0;
+      uint8_t strobeCount;
+      uint8_t select;
     public:
       //For breathe control
       uint8_t brightness;
@@ -43,6 +45,7 @@ class LED_Module{
       bool ascend;
       uint16_t switchCount;
       uint16_t holdCount;
+      uint8_t twinkleCount;
       //For flash control
       bool hold_on;
       uint16_t flashStep;
@@ -72,6 +75,8 @@ class LED_Module{
       void NightRider(Adafruit_NeoPixel* strip);
       void Sweep(uint32_t c, Adafruit_NeoPixel* strip);
       void moveCluster(int start, bool direction, Adafruit_NeoPixel* strip, bool nightRider);
+      void LED_Module::randomTwinkle(uint16_t step, uint16_t every, uint16_t max, Adafruit_NeoPixel* strip);
+      void sparkle(uint32_t c, uint32_t s, uint16_t step, uint16_t every, Adafruit_NeoPixel* strip);
       uint32_t getColorCode(uint8_t color);
       void reset();
 };
